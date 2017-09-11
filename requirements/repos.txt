@@ -1,0 +1,1 @@
+-e git+https://github.com/hdknr/django-corekit.git@p3#egg=corekit
