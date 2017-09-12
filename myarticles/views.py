@@ -12,16 +12,16 @@ class ArticleView(core_views.View):
     def index(self, request):
         instances = filters.ArticleFilter(data)
         return self.render(
-            'articles/artcle/index.html', instances=instances)
+            'articles/article/index.html', instances=instances)
 
     @core_views.handler(
         url=r'(?P<id>\d+)',
         name="myarticles_article_detail", order=70,
         perms=['articles.change_article'])
     def detail(self, request, id):
-        instance = models.Article.filter(id=id).first()
+        instance = models.Article.objects.filter(id=id).first()
         return self.render(
-            'articles/artcle/detail.html', instance=instance)
+            'articles/article/detail.html', instance=instance)
 
     @core_views.handler(
         url=r'(?P<id>\d+)/edit',
@@ -33,7 +33,7 @@ class ArticleView(core_views.View):
         if request.method == 'POST' and form.is_valid():
             form.save()
         return self.render(
-            'articles/artcle/edit.html', form=form)
+            'articles/article/edit.html', form=form)
 
 
 class ElementView(core_views.View):

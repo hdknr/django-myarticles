@@ -1,4 +1,5 @@
 include *.md
+recursive-include * *.py
 recursive-include myarticles/templates *
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]

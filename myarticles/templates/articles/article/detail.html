@@ -1,0 +1,13 @@
+{% extends 'articles/base.html' %}
+{% load myarticlestags %}
+{% block myarticles_content %}
+<div class="content">
+  {% for element in instance.element_set.all %}
+  <div class="row">
+    <div class="col-md-12">
+      {% render_element element=element.instance request=request %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -4,4 +4,4 @@ from . import views
 
 
 urlpatterns = [
-] + views.ElementView.urls()
+] + views.ElementView.urls() + views.ArticleView.urls()
