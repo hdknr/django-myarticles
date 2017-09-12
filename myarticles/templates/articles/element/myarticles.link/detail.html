@@ -1,0 +1,7 @@
+{% extends 'articles/element/detail_base.html'  %}
+{% block element_blcok %}
+{{ instance.url }}
+{% if instance.image_url %}
+  <img src="{{ instance.image_url }}">
+{% endif %}
+{% endblock %}

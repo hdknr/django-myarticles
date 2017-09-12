@@ -22,7 +22,7 @@ class ArticleTestCase(TestCase):
         self.assertEqual(sum([ids0[0][1], ids0[0][1]]), 0)  # 'order' is '0'
 
     def test_mixorder(self):
-        ''' sub class models of Element in order
+        ''' sub class models in order
         '''
         article = factories.ArticleFactory.create_random(count=1)[0]
         fs = [
@@ -42,3 +42,21 @@ class ArticleTestCase(TestCase):
         self.assertEqual(
             article.element_set.first().instance._meta.model,
             fs[-1]._meta.model)
+
+
+class FormTestCase(TestCase):
+
+    def test_create(self):
+        class_name = [
+            'myarticles.forms.SectionForm',
+            'myarticles.forms.SubsectionForm',
+            'myarticles.forms.TextForm',
+            'myarticles.forms.ImageForm',
+            'myarticles.forms.LinkForm',
+            'myarticles.forms.QuoteForm',
+            'myarticles.forms.LocationForm',
+        ]
+        from django.utils.module_loading import import_string
+        for name in class_name:
+            form = import_string(name)
+            print(form)

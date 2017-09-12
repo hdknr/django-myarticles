@@ -1,0 +1,8 @@
+{% extends 'articles/element/detail_base.html'  %}
+{% load corekits %}
+{% block element_blcok %}
+Location: {{ instance.address }}
+<figure>
+    {% gmap address=instance.address %}
+</figure>
+{% endblock %}
