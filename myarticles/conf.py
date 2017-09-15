@@ -14,7 +14,7 @@ FORMS = {
 
 
 def form_for_contenttype(content_type):
-    return  FORMS[content_type.model_name]
+    return  FORMS[content_type.model]
 
 
 def form_for_symbol(name):

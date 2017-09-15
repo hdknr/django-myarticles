@@ -26,6 +26,7 @@ migrations
 node_modules
 app/local_settings.py
 .coverage
+*.sqlite3
 
 # mac
 .DS_Store

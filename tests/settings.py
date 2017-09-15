@@ -18,7 +18,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'test.sqllite3',
-        'TEST_NAME': 'test.sqllite3',
+        'TEST_NAME': 'test.sqlite3',
         # 'NAME': ':memory:',
     }
 }

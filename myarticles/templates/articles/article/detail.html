@@ -1,13 +1,37 @@
 {% extends 'articles/base.html' %}
-{% load myarticlestags %}
+{% load myarticlestags i18n %}
 {% block myarticles_content %}
 <div class="content">
   {% for element in instance.element_set.all %}
   <div class="row">
-    <div class="col-md-12">
+    <div class="element-container col-md-12">
       {% render_element element=element.instance request=request %}
     </div>
   </div>
   {% endfor %}
 </div>
+{% endblock %}
+
+{% block article_script %}
+<script>
+$(function(){
+  $("div.content").on({
+      'click': function(){
+        var parent = $(this).closest('div.element-container');
+        var form = $(this).closest('form');
+        var data = form.serialize() + "&mode=" + $(this).val() ;
+        $.ajax({
+            data: data,
+            type: form.attr('method'),
+            url: form.attr('action'),
+            success: function(response){
+                parent.html(response);
+                return false;
+            }
+        });
+        return false;
+      }
+  }, 'form button');
+});
+</script>
 {% endblock %}

@@ -1,0 +1,11 @@
+{% load i18n %}
+<div class="element {{ instance.contenttype.app_label }}-{{ instance.contenttype.model }}" id="{{ instance.id }}">
+{% block element_blcok %}
+  <form action="{% url 'myarticles_element_edit' id=form.instance.id %}" method="post"> {% csrf_token %}
+      {% block element_form %}
+      {% endblock %}
+      <button class="btn btn-primary" value="edit">{% trans 'Save & Continue' %}</button>
+      <button class="btn btn-primary">{% trans 'Save' %}</button>
+  </form>
+{% endblock %}
+</div>

@@ -43,7 +43,7 @@ class ElementView(core_views.View):
             name, *instance.contenttype().natural_key())
 
     @core_views.handler(
-        url=r'element/(?P<id>\d+)',
+        url=r'element/(?P<id>\d+)$',
         name="myarticles_element_detail", order=70,
         perms=['articles.change_element'])
     def detail(self, request, id):
@@ -57,14 +57,17 @@ class ElementView(core_views.View):
 
     @core_views.handler(
         url=r'element/(?P<id>\d+)/edit',
-        name="myarticles_article_edit", order=70,
+        name="myarticles_element_edit", order=60,
         perms=['articles.change_article'])
     def edit(self, request, id):
         instance = models.Element.objects.filter(id=id).first()
         instance = instance and instance.instance
-        form_class = conf.form_for_contenttype()
+        form_class = conf.form_for_contenttype(instance.contenttype())
         form = form_class(request.POST or None, instance=instance)
+
+        mode = 'edit'
         if request.method == 'POST' and form.is_valid():
             form.save()
+            mode = request.POST.get('mode', mode) or 'detail'
         return self.render(
-            self.template_name(instance, 'edit'), instance=instance)
+            self.template_name(instance, mode), form=form, instance=instance)
