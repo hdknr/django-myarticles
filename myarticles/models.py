@@ -3,14 +3,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from ordered_model.models import OrderedModel
-from . import methods
+from . import methods, defs
 
 
-class Article(models.Model):
-    author = models.ForeignKey(User)
-    title = models.CharField(max_length=100)
-
-    html = models.TextField(null=True, blank=True, default=None)
+class Article(defs.Article):
 
     class Meta:
         verbose_name = _('Article')
