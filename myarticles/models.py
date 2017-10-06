@@ -6,7 +6,7 @@ from ordered_model.models import OrderedModel
 from . import methods, defs
 
 
-class Article(defs.Article):
+class Article(defs.Article, methods.Article):
 
     class Meta:
         verbose_name = _('Article')

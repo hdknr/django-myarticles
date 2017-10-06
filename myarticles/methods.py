@@ -3,6 +3,10 @@ from django.core.urlresolvers import reverse
 from corekit.methods import CoreModel
 
 
+class Article(CoreModel):
+    pass
+
+
 class Element(CoreModel):
 
     def get_absolute_url(self):

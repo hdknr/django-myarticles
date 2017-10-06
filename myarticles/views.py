@@ -10,7 +10,7 @@ class ArticleView(core_views.View):
         name="myarticles_article_index", order=90,
         perms=['articles.change_article'])
     def index(self, request):
-        instances = filters.ArticleFilter(data)
+        instances = filters.ArticleFilter(request.GET)
         return self.render(
             'articles/article/index.html', instances=instances)
 

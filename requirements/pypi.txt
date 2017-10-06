@@ -6,3 +6,5 @@ django-ordered-model
 
 # Bootstrap3
 django-bootstrap3
+
+django-filter
