@@ -24,6 +24,30 @@ class ArticleView(core_views.View):
             'articles/article/detail.html', instance=instance)
 
     @core_views.handler(
+        url=r'(?P<id>\d+)/meta/edit',
+        name="myarticles_article_meta_edit", order=60,
+        perms=['articles.change_article'])
+    def meta_edit(self, request, id):
+        instance = models.Article.objects.filter(id=id).first()
+        form = forms.ArticleForm(request.POST or None, instance=instance)
+        if request.method == 'POST' and form.is_valid():
+            form.save()
+            return self.render(
+                'articles/article/meta/detail.html',
+                instance=instance, form=form)
+        return self.render(
+            'articles/article/meta/edit.html', instance=instance, form=form)
+
+    @core_views.handler(
+        url=r'(?P<id>\d+)/meta$',
+        name="myarticles_article_meta_detail", order=60,
+        perms=['articles.change_article'])
+    def meta_detail(self, request, id):
+        instance = models.Article.objects.filter(id=id).first()
+        return self.render(
+            'articles/article/meta/detail.html', instance=instance)
+
+    @core_views.handler(
         url=r'(?P<id>\d+)/edit',
         name="myarticles_article_edit", order=70,
         perms=['articles.change_article'])

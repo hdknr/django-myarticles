@@ -1,5 +1,6 @@
 # coding: utf-8
 from django.utils.safestring import SafeString as _S
+from django.utils.translation import ugettext_lazy as _
 from corekit import admin as core_admin
 from ordered_model.admin import OrderedTabularInline
 from . import models
@@ -8,12 +9,17 @@ from . import models
 class ElementAdminInline(OrderedTabularInline):
     model = models.Element
     extra = 0
-    readonly_fields = ['id', 'instance_admin', 'order', 'move_up_down_links', ]
+    readonly_fields = ['id', 'elm', 'instance_admin', 'order', 'move_up_down_links', ]
 
     def instance_admin(self, obj):
         return _S('<a href="{}">{}</a>'.format(
             obj.instance.admin_change_url(),
             obj.instance))
+
+    def elm(self, obj):
+        return obj.instance.contenttype()
+
+    elm.short_description = _('Element Type')
 
 
 class ArticleAdmin(core_admin.CoreAdmin):

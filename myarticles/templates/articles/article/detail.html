@@ -1,21 +1,32 @@
 {% extends 'articles/base.html' %}
 {% load myarticlestags i18n %}
+
 {% block myarticles_content %}
-<div class="content">
-  {% for element in instance.element_set.all %}
-  <div class="row">
-    <div class="element-container col-md-12">
-      {% render_element element=element.instance request=request %}
+<article>
+
+  <header>
+    <div class="row panel panel-primary">
+      <div class="element-container col-md-12">
+        {% article_meta instance=instance request=request %}
+      </div>
     </div>
-  </div>
+  </header>
+
+  {% for element in instance.element_set.all %}
+    <div class="row panel panel-default">
+      <div class="element-container col-md-12">
+        {% render_element element=element.instance request=request %}
+      </div>
+    </div>
   {% endfor %}
-</div>
+
+</article>
 {% endblock %}
 
 {% block article_script %}
 <script>
 $(function(){
-  $("div.content").on({
+  $("article").on({
       'click': function(){
         var parent = $(this).closest('div.element-container');
         var form = $(this).closest('form');
@@ -34,4 +45,11 @@ $(function(){
   }, 'form button');
 });
 </script>
+{% endblock %}
+
+
+{% block style %}{{ block.super }}
+<style>
+div.row { margin: 10px; }
+</style>
 {% endblock %}

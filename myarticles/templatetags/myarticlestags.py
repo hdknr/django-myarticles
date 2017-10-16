@@ -12,3 +12,11 @@ def render_element(
         'detail', *element.contenttype().natural_key())
     return utils.render_by(
         template_name, instance=element, request=request, **kwargs)
+
+
+@register.simple_tag(takes_context=False)
+def article_meta(
+        instance, request=None, **kwargs):
+    template_name = 'articles/article/meta/detail.html'
+    return utils.render_by(
+        template_name, instance=instance, request=request, **kwargs)

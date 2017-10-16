@@ -33,6 +33,9 @@ class Section(Element):
         verbose_name = _('Section')
         verbose_name_plural = _('Sections')
 
+    def __str__(self):
+        return self.title
+
 
 class Subsection(Element):
 
@@ -42,6 +45,9 @@ class Subsection(Element):
         verbose_name = _('Subsection')
         verbose_name_plural = _('Subsections')
 
+    def __str__(self):
+        return self.title
+
 
 class Text(Element):
 
@@ -50,6 +56,9 @@ class Text(Element):
     class Meta:
         verbose_name = _('Text')
         verbose_name_plural = _('Texts')
+
+    def __str__(self):
+        return self.texts and self.texts[:20]
 
 
 class Image(Element):
@@ -82,6 +91,9 @@ class Quote(Element):
         verbose_name = _('Quote')
         verbose_name_plural = _('Quotes')
 
+    def __str__(self):
+        return self.texts and self.texts[:20]
+
 
 class Location(Element):
 
@@ -90,3 +102,6 @@ class Location(Element):
     class Meta:
         verbose_name = _('Location')
         verbose_name_plural = _('Locations')
+
+    def __str__(self):
+        return self.address

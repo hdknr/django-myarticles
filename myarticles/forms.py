@@ -7,7 +7,7 @@ class ArticleForm(forms.ModelForm):
 
     class Meta:
         model = models.Article
-        exclude = []
+        fields = ['title', 'keywords', 'description', 'catch', ]
 
 
 class SectionForm(forms.ModelForm):
