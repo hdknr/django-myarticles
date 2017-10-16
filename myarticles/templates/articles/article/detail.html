@@ -12,20 +12,43 @@
     </div>
   </header>
 
+  <div id="element-list">
   {% for element in instance.element_set.all %}
-    <div class="row panel panel-default">
-      <div class="element-container col-md-12">
+    <div class="row panel panel-default" element-id="{{ element.id }}">
+      <div class="element-container col-md-11">
         {% render_element element=element.instance request=request %}
+      </div>
+      <div class="col-md-1 move-handle">
+        element-type
       </div>
     </div>
   {% endfor %}
+  </div>
+
+  <form id="element-move-form" action="{% url 'myarticles_element_move' %}" method="post" style="visibility:hidden">{% csrf_token %}
+  </form>
 
 </article>
 {% endblock %}
 
 {% block article_script %}
-<script>
+<script>  {# jqeury-ui-dist, jquery, bootstrap #}
 $(function(){
+
+  {# http://api.jqueryui.com/sortable/ #}
+  var elements = $("#element-list");
+  elements.sortable({
+    handle: '.move-handle',
+    update: function(ev, ui){
+        var form = $("#element-move-form");
+        var data = form.serialize() + "&id=" + ui.item.attr('element-id') + "&to="  + elements.children().index(ui.item);
+        $.ajax({
+            data: data, type: 'post', url: form.attr('action'),
+            success: function(response){ return false; }
+        });
+    }
+  });
+
   $("article").on({
       'click': function(){
         var parent = $(this).closest('div.element-container');

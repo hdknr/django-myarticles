@@ -95,3 +95,19 @@ class ElementView(core_views.View):
             mode = request.POST.get('mode', mode) or 'detail'
         return self.render(
             self.template_name(instance, mode), form=form, instance=instance)
+
+    @core_views.handler(
+        url=r'element/move',
+        name="myarticles_element_move", order=60,
+        perms=['articles.change_article'])
+    def move(self, request):
+        to = request.POST.get('to', '')
+        id = request.POST.get('id', '')
+        instance = models.Element.objects.filter(id=id).first()
+        if not instance:
+            return self.page_not_found()
+        if to.isdigit():
+            instance.to(int(to))
+        instance = instance.instance
+        return self.render(
+            self.template_name(instance, 'detail'), instance=instance)
