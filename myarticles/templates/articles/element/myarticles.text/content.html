@@ -1,0 +1,5 @@
+{% load i18n mywordstags %}
+
+<div class="element {{ graph.element.element_fullname }}" id="{{ graph.element.element_fullname }}-{{ graph.element.id }}">
+  {{ graph.element.texts|markdown }}
+</div>

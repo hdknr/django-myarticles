@@ -1,0 +1,7 @@
+{% load i18n corekits %}
+<div class="element {{ graph.element.element_fullname }}" id="{{ graph.element.element_fullname }}-{{ graph.element.id }}">
+  Location: {{ graph.element.address }}
+  <figure>
+      {% gmap address=graph.element.address %}
+  </figure>
+</div>

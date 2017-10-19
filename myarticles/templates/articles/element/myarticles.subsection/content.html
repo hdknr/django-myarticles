@@ -1,0 +1,9 @@
+{% load i18n %}
+<section id="{{ graph.element.element_fullname }}-{{ graph.element.id }}">
+  <h3> {{ graph.element.title }}</h3>
+  <div>
+    {% for child in graph.children %}
+      {{ child.render_content }}
+    {% endfor %}
+  </div>
+</section>
