@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from ordered_model.models import OrderedModel
+from mymedia.models import MediaFile
 from . import methods, defs
 
 
@@ -63,7 +64,7 @@ class Text(Element):
 
 class Image(Element):
 
-    image_url = models.URLField()
+    mediafile = models.ForeignKey(MediaFile)
 
     class Meta:
         verbose_name = _('Image')

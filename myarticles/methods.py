@@ -6,7 +6,6 @@ from . import signals
 
 
 class Article(CoreModel):
-    on_publish = signals.article_publish
 
     def update_links(self):
         if self.keywords:
@@ -16,9 +15,6 @@ class Article(CoreModel):
                 if word:
                     word.link_set.get_or_create(
                         content_type=self.contenttype(), object_id=self.id)
-
-    def publish(self):
-        self.on_publish.send(self.__class__, instance=self)
 
 
 class Element(CoreModel):
