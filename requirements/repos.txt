@@ -1,2 +1,3 @@
 -e git+https://github.com/hdknr/django-corekit.git@p3#egg=corekit
 -e git+https://github.com/hdknr/django-mymedia.git@p3#egg=django-mymedia
+-e git+https://github.com/hdknr/django-mymedia.git@p3#egg=django-mywords

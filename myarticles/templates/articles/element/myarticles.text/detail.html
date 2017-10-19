@@ -1,6 +1,6 @@
 {% extends 'articles/element/detail_base.html'  %}
+{% load mywordstags %}
+
 {% block element_blcok %}
-<p>
-  {{ instance.texts }}
-</p>
+  {{ instance.texts|markdown }}
 {% endblock %}
