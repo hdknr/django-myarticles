@@ -9,6 +9,7 @@ class Article(CoreModel):
     def update_links(self):
         if self.keywords:
             for i in self.keywords.split(','):
+                i = i and i.strip()
                 word, created = Word.objects.get_or_create(text=i)
                 if word:
                     word.link_set.get_or_create(
