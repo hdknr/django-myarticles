@@ -11,7 +11,5 @@ class Article(models.Model):
     description = models.TextField(null=True, default=None, blank=True)
     catch = models.ForeignKey(MediaFile, null=True, blank=True, default=None)
 
-    html = models.TextField(null=True, blank=True, default=None)
-
     class Meta:
         abstract = True
