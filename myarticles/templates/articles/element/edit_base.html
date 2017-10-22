@@ -1,11 +1,16 @@
-{% load i18n %}
-<div class="element {{ instance.contenttype.app_label }}-{{ instance.contenttype.model }}" id="{{ instance.id }}">
-{% block element_blcok %}
-  <form action="{% url 'myarticles_element_edit' id=form.instance.id %}" method="post"> {% csrf_token %}
-      {% block element_form %}
-      {% endblock %}
-      <button class="btn btn-primary" value="edit">{% trans 'Save & Continue' %}</button>
-      <button class="btn btn-primary">{% trans 'Save' %}</button>
-  </form>
-{% endblock %}
-</div>
+{% load i18n bootstrap3 %}
+  <div class="col-md-12">
+    <div class="element {{ instance.contenttype.app_label }}-{{ instance.contenttype.model }}" id="{{ instance.id }}">
+    {% block element_blcok %}
+      <form action="{% url 'myarticles_element_edit' id=form.instance.id %}" class="form form-horizontal" method="post"> {% csrf_token %}
+          {% block element_form %}
+          {% endblock %}
+
+          {% buttons field_class="col-md-offset-10" %}
+          {# <button class="btn btn-primary" value="edit">{% trans 'Save & Continue' %}</button> #}
+          <button class="btn btn-primary">{% trans 'Save' %}</button>
+          {% endbuttons %}
+      </form>
+    {% endblock %}
+    </div>
+  </div>

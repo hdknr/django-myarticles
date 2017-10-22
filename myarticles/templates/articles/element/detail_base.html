@@ -1,8 +1,31 @@
 {% load i18n %}
-<div class="element {{ instance.contenttype.app_label }}-{{ instance.contenttype.model }}" id="{{ instance.id }}">
-  <form action="{% url 'myarticles_element_edit' id=instance.id %}" method="get"> {% csrf_token %}
-    <button type="btn btn-primary">{% trans 'Edit' %}</button>
-  </form>
+
+<div class="col-md-10">
   {% block element_blcok %}
   {% endblock %}
+</div>
+
+<div class="col-md-2">
+  <div class="element {{ instance.contenttype.app_label }}-{{ instance.contenttype.model }}" id="{{ instance.id }}">
+
+    <form action="{% url 'myarticles_element_edit' id=instance.id %}" method="get"> {% csrf_token %}
+
+      <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        <button class="btn btn-primary" type="button"><i class="fa fa-pencil-square-o"></i></button>
+        <div class="btn-group" role="group">
+          <span id="new-item-{{ instance.id }}" type="button" class="btn btn-primary dropdown-toggle"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+          </span>
+
+          <ul class="dropdown-menu" aria-labelledby="new-item-{{ instance.id }}">
+            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
+            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
+          </ul>
+
+        </div>
+        <span class="btn btn-primary"><i class="fa fa-arrows move-handle" ></i></span>
+      </div>
+    </form>
+  </div>
 </div>
