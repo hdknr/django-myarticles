@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="element {{ graph.element.element_fullname }}" id="{{ graph.element.element_fullname }}-{{ graph.element.id }}">
-  {{ graph.element.url }}
+  {{ graph.element.page.embed|safe }}
   {% if graph.element.image_url %}
     <img src="{{ graph.element.image_url }}">
   {% endif %}
