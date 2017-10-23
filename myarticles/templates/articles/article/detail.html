@@ -44,7 +44,8 @@ $(function(){
     }
   });
 
-  $("article").on({
+  $("article")
+    .on({
       'click': function(){
         var parent = $(this).closest('div.element-container');
         var form = $(this).closest('form');
@@ -60,7 +61,7 @@ $(function(){
         });
         return false;
       }
-  }, 'form button');
+    }, 'form button');
 });
 </script>
 {% endblock %}

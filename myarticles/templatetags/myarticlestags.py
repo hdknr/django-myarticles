@@ -2,6 +2,7 @@
 from django import template
 from django.core.urlresolvers import reverse
 from corekit import utils, methods
+from .. import models
 register = template.Library()
 
 
@@ -20,3 +21,8 @@ def article_meta(
     template_name = 'articles/article/meta/detail.html'
     return utils.render_by(
         template_name, instance=instance, request=request, **kwargs)
+
+
+@register.simple_tag
+def elements():
+    return [i._meta for i in models.Element.__subclasses__()]
