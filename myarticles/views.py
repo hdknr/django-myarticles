@@ -96,10 +96,13 @@ class ElementView(core_views.View):
         form_class = conf.form_for_contenttype(instance.contenttype())
         form = form_class(request.POST or None, instance=instance)
 
-        mode = 'edit'
-        if request.method == 'POST' and form.is_valid():
+        mode = request.POST.get('mode', None) or 'edit'
+        if mode == 'edit' and request.method == 'POST' and form.is_valid():
             form.save()
-            mode = request.POST.get('mode', mode) or 'detail'
+            mode = 'detail'
+        elif mode == 'delete':
+            instance.delete()
+
         return self.render(
             self.template_name(instance, mode), form=form, instance=instance)
 
