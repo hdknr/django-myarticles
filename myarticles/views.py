@@ -31,13 +31,14 @@ class ArticleView(core_views.View):
     def meta_edit(self, request, id):
         instance = models.Article.objects.filter(id=id).first()
         form = forms.ArticleForm(request.POST or None, instance=instance)
-        if request.method == 'POST' and form.is_valid():
+        mode = request.POST.get('mode', None) or 'edit'
+        if mode == 'edit' and request.method == 'POST' and form.is_valid():
             form.save()
-            return self.render(
-                'articles/article/meta/detail.html',
-                instance=instance, form=form)
+            mode = 'detail'
+
         return self.render(
-            'articles/article/meta/edit.html', instance=instance, form=form)
+            'articles/article/meta/{}.html'.format(mode),
+            instance=instance, form=form)
 
     @core_views.handler(
         url=r'(?P<id>\d+)/meta$',

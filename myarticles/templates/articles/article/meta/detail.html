@@ -1,8 +1,16 @@
 {% load i18n %}
-<div class="article {{instance.contenttype.app_label }}-{{ instance.contenttype.model }}" id="{{ instance.id }}">
+<div class="row element-container panel panel-primary">
 
-  <form action="{% url 'myarticles_article_meta_edit' id=instance.id %}" method="get">
-    <button type="btn btn-primary">{% trans 'Edit' %}</button>
-  </form>
-  <h1>{{ instance.title }}</h1>
+  <div class="col-md-10">
+      <h1>{{ instance.title }}</h1>
+  </div>
+
+  <div class="col-md-2">
+    <div class="article {{instance.contenttype.app_label }}-{{ instance.contenttype.model }}" id="{{ instance.id }}">
+      <form action="{% url 'myarticles_article_meta_edit' id=instance.id %}" method="get">
+        <button class="btn btn-xs btn-primary pull-right" type="button"><i class="fa fa-pencil-square-o"></i></button>
+      </form>
+    </div>
+  </div>
+
 </div>

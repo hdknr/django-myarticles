@@ -1,8 +1,15 @@
 {% load i18n bootstrap3 %}
-<div class="article {{instance.contenttype.app_label }}-{{ instance.contenttype.model }}" id="{{ instance.id }}">
-  <form action="{% url 'myarticles_article_meta_edit' id=form.instance.id  %}" method="post"> {% csrf_token %}
-      {% bootstrap_form form layout=horizontal %}
-      <button class="btn btn-primary" value="edit">{% trans 'Save & Continue' %}</button>
-      <button class="btn btn-primary">{% trans 'Save' %}</button>
-  </form>
+<div class="row element-container panel panel-primary">
+  <div class="col-md-12">
+    <div class="article {{instance.contenttype.app_label }}-{{ instance.contenttype.model }} container" id="{{ instance.id }}">
+      <form action="{% url 'myarticles_article_meta_edit' id=form.instance.id  %}"
+        method="post" class="form-horizontal"> {% csrf_token %}
+          {% bootstrap_form form layout='horizontal' label_class="col-md-2" %}
+          {% buttons field_class="col-md-offset-2" %}
+            <button class="btn btn-primary">{% trans 'Save' %}</button>
+            <button class="btn btn-primary" value="detail">{% trans 'Cancel' %}</button>
+          {% endbuttons %}
+      </form>
+    </div>
+  </div>
 </div>
