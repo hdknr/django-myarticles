@@ -21,7 +21,8 @@
 
             <ul class="dropdown-menu insert-element" aria-labelledby="new-item-{{ instance.id }}">
             {% for e in ELS %}
-              <li><a class="dropdown-item" href="#" app_label="{{ e.app_label }}" model_name="{{ e.model_name }}">{{ e.verbose_name }}</a></li>
+              <li><a class="dropdown-item" href="#insert-{{ instance.article.id }}-{{ instance.order }}-{{ e.type.id }}">
+                  {{ e.meta.verbose_name }}</a></li>
             {% endfor %}
             </ul>
 
@@ -31,5 +32,4 @@
       </form>
     </div>
   </div>
-
 </div>

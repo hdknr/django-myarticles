@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from django import template
 from django.core.urlresolvers import reverse
+from django.contrib.contenttypes.models import ContentType
 from corekit import utils, methods
-from .. import models
+from .. import models, forms
 register = template.Library()
 
 
@@ -25,4 +26,9 @@ def article_meta(
 
 @register.simple_tag
 def elements():
-    return [i._meta for i in models.Element.__subclasses__()]
+    return [{'meta': i._meta, 'type': ContentType.objects.get_for_model(i)}
+            for i in models.Element.__subclasses__()]
+
+@register.simple_tag
+def element_insert_form(prefix='insert-element'):
+    return forms.ElementInsertForm(prefix=prefix)

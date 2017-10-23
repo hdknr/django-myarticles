@@ -1,5 +1,6 @@
 # coding: utf-8
 from django import forms
+from django.contrib.contenttypes.models import ContentType
 from mylinks.models import Page
 from . import models
 
@@ -11,43 +12,51 @@ class ArticleForm(forms.ModelForm):
         fields = ['title', 'keywords', 'description', 'catch', ]
 
 
-class SectionForm(forms.ModelForm):
+class ElementForm(object):
+
+    @classmethod
+    def for_model(cls, model_class):
+        for c in cls.__subclasses__():
+            if c.Meta.model == model_class:
+                return c
+
+
+class SectionForm(ElementForm, forms.ModelForm):
 
     class Meta:
         model = models.Section
         exclude = ['article', ]
 
 
-
-class SubsectionForm(forms.ModelForm):
+class SubsectionForm(ElementForm, forms.ModelForm):
 
     class Meta:
         model = models.Subsection
         exclude = ['article', ]
 
 
-class TextForm(forms.ModelForm):
+class TextForm(ElementForm, forms.ModelForm):
 
     class Meta:
         model = models.Text
         exclude = ['article', ]
 
 
-class TextForm(forms.ModelForm):
+class TextForm(ElementForm, forms.ModelForm):
 
     class Meta:
         model = models.Text
         exclude = ['article', ]
 
 
-class ImageForm(forms.ModelForm):
+class ImageForm(ElementForm, forms.ModelForm):
 
     class Meta:
         model = models.Image
         exclude = ['article', ]
 
 
-class LinkForm(forms.ModelForm):
+class LinkForm(ElementForm, forms.ModelForm):
     url = forms.URLField(required=True)
 
     class Meta:
@@ -75,15 +84,29 @@ class LinkForm(forms.ModelForm):
         return instance
 
 
-class QuoteForm(forms.ModelForm):
+class QuoteForm(ElementForm, forms.ModelForm):
 
     class Meta:
         model = models.Quote
         exclude = ['article', ]
 
 
-class LocationForm(forms.ModelForm):
+class LocationForm(ElementForm, forms.ModelForm):
 
     class Meta:
         model = models.Location
         exclude = ['article', ]
+
+
+class ElementInsertForm(forms.Form):
+    article = forms.ModelChoiceField(
+        queryset=models.Article.objects.all(), widget=forms.HiddenInput)
+    contenttype = forms.ModelChoiceField(
+        queryset=ContentType.objects.all(), widget=forms.HiddenInput)
+    position = forms.IntegerField(widget=forms.HiddenInput)
+
+    @property
+    def element_form_class(self):
+        print(self.cleaned_data)
+        return ElementForm.for_model(
+            self.cleaned_data['contenttype'].model_class())

@@ -21,6 +21,10 @@
   <form id="element-move-form" action="{% url 'myarticles_element_move' %}" method="post" style="visibility:hidden">{% csrf_token %}
   </form>
 
+  <form id="element-insert-form" action="{% url 'myarticles_element_insert' %}" method="post" style="visibility:hidden">{% csrf_token %}
+    {% element_insert_form %}
+  </form>
+
 </article>
 {% endblock %}
 
@@ -38,13 +42,12 @@ $(function(){
         $.ajax({
             data: data, type: 'post', url: form.attr('action'),
             success: function(response){ return false; }
-        });
+        })  ;
     }
   });
 
   $("article")
-    .on({
-      'click': function(){
+    .on({'click': function(){
         var parent = $(this).closest('div.element-container');
         var form = $(this).closest('form');
         var data = form.serialize() + "&mode=" + $(this).val() ;
@@ -58,8 +61,24 @@ $(function(){
             }
         });
         return false;
-      }
-    }, 'form button');
+    }}, 'form button')
+    .on({'click': function(){
+       var a = $(this);
+       var item = a.attr('href').match(/\d+/g)
+        var parent = $(this).closest('div.element-container');
+        var form = $("#element-insert-form");
+        form.find('input[name=insert-element-article]').val(item[0]);
+        form.find('input[name=insert-element-position]').val(item[1]);
+        form.find('input[name=insert-element-contenttype]').val(item[2]);
+        var data = form.serialize();
+        $.ajax({
+            data: data, type: 'post', url: form.attr('action'),
+            success: function(response){
+                parent.after(response); return false;
+            }
+        });
+        return true;
+    }}, '.insert-element a');
 });
 </script>
 {% endblock %}

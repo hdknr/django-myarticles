@@ -1,4 +1,5 @@
 # coding: utf-8
+from django.contrib.contenttypes.models import ContentType
 from corekit import views as core_views
 from . import filters, models, forms, conf
 
@@ -62,9 +63,15 @@ class ArticleView(core_views.View):
 
 class ElementView(core_views.View):
 
-    def template_name(self, instance, name):
-        return 'articles/element/{1}.{2}/{0}.html'.format(
-            name, *instance.contenttype().natural_key())
+    def template_name(self, instance_or_contenttype, name):
+        contentype =  instance_or_contenttype \
+            if isinstance(instance_or_contenttype, ContentType) \
+                else instance_or_contenttype.contenttype()
+
+        res = 'articles/element/{1}.{2}/{0}.html'.format(
+            name, *contentype.natural_key())
+        print("tempalten name", res)
+        return res
 
     @core_views.handler(
         url=r'element/(?P<id>\d+)$',
@@ -117,16 +124,21 @@ class ElementView(core_views.View):
         name="myarticles_element_insert", order=60,
         perms=['articles.change_article'])
     def insert(self, request):
-        position = request.POST.get('position', '')
-        article_id = request.POST.get('article_id', '')
-        app_label = request.POST.get('app_label', '')
-        model_name = request.POST.get('model_name', '')
+        insert_form = forms.ElementInsertForm(
+            request.POST or None, prefix="insert-element")
 
-        instance = models.Element.objects.filter(id=id).first()
-        if not instance:
-            return self.page_not_found()
-        if to.isdigit():
-            instance.to(int(to))
-        instance = instance.instance
+        if not insert_form.is_valid():
+            return self.render('error')
+
+        form = insert_form.element_form_class(request.POST or None)
+        if form.is_valid():
+            form.instance.article = insert_form.cleaned_data['article']
+            instance = form.save()
+            instance.to(insert_form.cleaned_data['position'] + 1)
+            return self.render(
+                self.template_name(instance, 'detail'), instance=instance)
+
         return self.render(
-            self.template_name(instance, 'detail'), instance=instance)
+            self.template_name(
+                insert_form.cleaned_data['contenttype'], 'insert'),
+            form=form, insert_form=insert_form)
