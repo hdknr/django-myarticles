@@ -111,3 +111,22 @@ class ElementView(core_views.View):
         instance = instance.instance
         return self.render(
             self.template_name(instance, 'detail'), instance=instance)
+
+    @core_views.handler(
+        url=r'element/insert',
+        name="myarticles_element_insert", order=60,
+        perms=['articles.change_article'])
+    def insert(self, request):
+        position = request.POST.get('position', '')
+        article_id = request.POST.get('article_id', '')
+        app_label = request.POST.get('app_label', '')
+        model_name = request.POST.get('model_name', '')
+
+        instance = models.Element.objects.filter(id=id).first()
+        if not instance:
+            return self.page_not_found()
+        if to.isdigit():
+            instance.to(int(to))
+        instance = instance.instance
+        return self.render(
+            self.template_name(instance, 'detail'), instance=instance)

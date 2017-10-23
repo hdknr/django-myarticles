@@ -1,6 +1,7 @@
 # coding: utf-8
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
+from django.contrib.contenttypes.models import ContentType
 from mywords.models import Word
 from corekit.methods import CoreModel
 from . import signals
@@ -71,6 +72,13 @@ class Article(CoreModel):
         return render_to_string(
             'articles/article/content.html',
             context=dict(graph=self.graph))
+
+#     def insert_element(self, app_label, model_class, position):
+#         element_class = ContentType.objects.get_by_natural_key(
+#             app_label, model_class)
+#         elm = element_class.create(article=self)
+#         elm.to(position)
+#         return elm
 
 
 class Element(CoreModel):

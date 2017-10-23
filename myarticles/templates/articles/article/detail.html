@@ -14,9 +14,7 @@
 
   <div id="element-list">
   {% for element in instance.element_set.all %}
-    <div class="row panel panel-default element-container" element-id="{{ element.id }}">
       {% render_element element=element.instance request=request %}
-    </div>
   {% endfor %}
   </div>
 
@@ -55,7 +53,7 @@ $(function(){
             type: form.attr('method'),
             url: form.attr('action'),
             success: function(response){
-                parent.html(response);
+                parent.replaceWith(response);
                 return false;
             }
         });
