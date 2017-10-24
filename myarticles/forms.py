@@ -54,6 +54,7 @@ class ImageForm(ElementForm, forms.ModelForm):
     class Meta:
         model = models.Image
         exclude = ['article', ]
+        widgets = {'mediafile': forms.HiddenInput, }
 
 
 class LinkForm(ElementForm, forms.ModelForm):

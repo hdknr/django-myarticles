@@ -1,5 +1,5 @@
 {% extends 'articles/base.html' %}
-{% load myarticlestags i18n %}
+{% load myarticlestags i18n staticfiles %}
 
 {% block myarticles_content %}
 <article>
@@ -20,6 +20,10 @@
   <form id="element-insert-form" action="{% url 'myarticles_element_insert' %}" method="post" style="visibility:hidden">{% csrf_token %}
     {% element_insert_form %}
   </form>
+
+  <div id="app">{# mymedia application(Vue.js) #}
+    {% include "mymedia/imagefile/picker/app.html" %}
+  </div>
 
 </article>
 {% endblock %}
@@ -84,4 +88,33 @@ $(function(){
 <style>
 div.row { margin: 10px; padding-top:10px;}
 </style>
+
+<style> {# mymedia styles #}
+.hide-bullets { list-style:none; margin-left: -40px; margin-top:20px; }
+.thumbnail { padding: 0; }
+.carousel-inner>.item>img, .carousel-inner>.item>a>img { width: 100%; }
+
+.thumbnail img { {# https://github.com/hdknr/scriptogr.am/commit/0fc18bfb31516a4f249cd0d90bbee8cc850e9cd5 #}
+   width:100px; height:50px; object-fit:scale-down;
+}
+.upload-preview {width: 200px;}
+</style>
+{% endblock %}
+
+{% block local_template %} {# mymedia templates(Vue.js) #}
+  {% include "mymedia/imagefile/picker/thumbnail.html" %}
+  {% include "mymedia/imagefile/picker/carousel.html" %}
+  {% include "mymedia/imagefile/picker/uploader.html" %}
+{% endblock %}
+
+{% block local_script %} {# mymedia code (Vue.js) #}
+  <script type="text/javascript" src="{% static 'lib/vue/dist/vue.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lib/axios/dist/axios.min.js' %}"></script>
+  <script type="text/javascript">
+    {% include "mymedia/imagefile/picker/app.js" %}
+  </script>
+  <script type="text/javascript">
+    {% include "mymedia/imagefile/picker/jquery.js" %}
+  </script>
+
 {% endblock %}
