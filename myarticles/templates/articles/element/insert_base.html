@@ -1,5 +1,5 @@
 {% load i18n bootstrap3 %}
-<div class="row panel panel-default element-container">
+<div class="row panel panel-default element-container element-insert">
   <div class="col-md-12">
     <div class="element {{ instance.contenttype.app_label }}-{{ instance.contenttype.model }}" id="{{ instance.id }}">
     {% block element_blcok %}
@@ -15,4 +15,6 @@
     {% endblock %}
     </div>
   </div>
+  {% block script_block %}
+  {% endblock %}
 </div>
