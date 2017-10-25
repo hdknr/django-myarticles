@@ -1,8 +1,25 @@
 {% extends 'articles/element/edit_base.html'  %}
 {% load bootstrap3 i18n %}
+
 {% block element_form %}
+  <img src="{{ form.instance.mediafile.data.url }}" class="preview" width="80%"/>
   {% bootstrap_form form layout="horizontal" %}
   <span type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagefile-picker">
       {% trans 'Select Image' %}
   </span>
+{% endblock %}
+
+{% block script_block %}
+<script>
+$("article")
+    .on({'shown.bs.modal': function(e){
+        app.resetPicker(1);       // the very first page of Image File Picker
+    }}, "#imagefile-picker")
+    .on({'hidden.bs.modal': function(e){
+      var input = $("div[element-id='{{ form.instance.id }}'] input[name='mediafile']");
+      var mediafile = app.selected_list[Object.keys(app.selected_list)[0]];
+      input.val(mediafile.id);     // set hidden input for MediaFile
+      input.parents('form').find('img.preview').attr('src', mediafile.data);  // preview
+    }}, "#imagefile-picker");
+</script>
 {% endblock %}

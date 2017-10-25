@@ -47,6 +47,14 @@ $(function(){
   });
 
   $("article")
+//    .on({'shown.bs.modal': function(e){
+//        console.log('show', e);  // e.relatedTarget is clicker.
+//        app.resetPicker(1);       // the very first page of Image File Picker
+//    }}, "#imagefile-picker")
+//    .on({'hidden.bs.modal': function(e){
+//        console.log('hide', e);
+//        console.log(app.selected);
+//    }}, "#imagefile-picker")
     .on({'click': function(){
         var parent = $(this).closest('div.element-container');
         var form = $(this).closest('form');
@@ -90,18 +98,12 @@ div.row { margin: 10px; padding-top:10px;}
 </style>
 
 <style> {# mymedia styles #}
-.hide-bullets { list-style:none; margin-left: -40px; margin-top:20px; }
-.thumbnail { padding: 0; }
-.carousel-inner>.item>img, .carousel-inner>.item>a>img { width: 100%; }
-
-.thumbnail img { {# https://github.com/hdknr/scriptogr.am/commit/0fc18bfb31516a4f249cd0d90bbee8cc850e9cd5 #}
-   width:100px; height:50px; object-fit:scale-down;
-}
-.upload-preview {width: 200px;}
+{% include "mymedia/imagefile/picker/style.css" %}
 </style>
 {% endblock %}
 
 {% block local_template %} {# mymedia templates(Vue.js) #}
+  {% include "mymedia/imagefile/picker/selection.html" %}
   {% include "mymedia/imagefile/picker/thumbnail.html" %}
   {% include "mymedia/imagefile/picker/carousel.html" %}
   {% include "mymedia/imagefile/picker/uploader.html" %}
