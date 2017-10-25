@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block script_block %}
+{% include 'articles/mediafile.html' %}
 <script>
 $("article")
     .on({'shown.bs.modal': function(e){

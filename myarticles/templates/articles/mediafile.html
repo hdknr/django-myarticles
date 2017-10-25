@@ -1,0 +1,14 @@
+{% load staticfiles %}
+<div id="app">{# mymedia application(Vue.js) #}
+  {% include "mymedia/imagefile/picker/app.html" %}
+</div>
+{% include "mymedia/imagefile/picker/selection.html" %}
+{% include "mymedia/imagefile/picker/thumbnail.html" %}
+{% include "mymedia/imagefile/picker/carousel.html" %}
+{% include "mymedia/imagefile/picker/uploader.html" %}
+<script type="text/javascript">
+  {% include "mymedia/imagefile/picker/app.js" %}
+</script>
+<script type="text/javascript">
+  {% include "mymedia/imagefile/picker/jquery.js" %}
+</script>

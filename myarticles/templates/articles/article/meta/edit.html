@@ -18,25 +18,26 @@
             </div>
           </div>
 
-
           {% buttons field_class="col-md-offset-2" %}
             <button class="btn btn-primary">{% trans 'Save' %}</button>
             <button class="btn btn-primary" value="detail">{% trans 'Cancel' %}</button>
           {% endbuttons %}
       </form>
-
-      <script>
-      $("article")
-          .on({'shown.bs.modal': function(e){
-              app.resetPicker(1);       // the very first page of Image File Picker
-          }}, "#imagefile-picker")
-          .on({'hidden.bs.modal': function(e){
-            var input = $("div.article-meta input[name='catch']");
-            var mediafile = app.selected_list[Object.keys(app.selected_list)[0]];
-            input.val(mediafile.id);     // set hidden input for MediaFile
-            input.parents('form').find('img.preview').attr('src', mediafile.data);  // preview
-          }}, "#imagefile-picker");
-      </script>
     </div>
   </div>
+
+  {% include 'articles/mediafile.html' %}
+  <script>
+  $("article")
+      .on({'shown.bs.modal': function(e){
+          app.resetPicker(1);       // the very first page of Image File Picker
+      }}, "#imagefile-picker")
+      .on({'hidden.bs.modal': function(e){
+        var input = $("div.article-meta input[name='catch']");
+        var mediafile = app.selected_list[Object.keys(app.selected_list)[0]];
+        input.val(mediafile.id);     // set hidden input for MediaFile
+        input.parents('form').find('img.preview').attr('src', mediafile.data);  // preview
+      }}, "#imagefile-picker");
+  </script>
+
 </div>

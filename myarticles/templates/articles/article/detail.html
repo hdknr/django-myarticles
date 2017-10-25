@@ -21,9 +21,6 @@
     {% element_insert_form %}
   </form>
 
-  <div id="app">{# mymedia application(Vue.js) #}
-    {% include "mymedia/imagefile/picker/app.html" %}
-  </div>
 
 </article>
 {% endblock %}
@@ -96,21 +93,8 @@ img.catch {width: 80%; }
 </style>
 {% endblock %}
 
-{% block local_template %} {# mymedia templates(Vue.js) #}
-  {% include "mymedia/imagefile/picker/selection.html" %}
-  {% include "mymedia/imagefile/picker/thumbnail.html" %}
-  {% include "mymedia/imagefile/picker/carousel.html" %}
-  {% include "mymedia/imagefile/picker/uploader.html" %}
-{% endblock %}
 
 {% block local_script %} {# mymedia code (Vue.js) #}
-  <script type="text/javascript" src="{% static 'lib/vue/dist/vue.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'lib/axios/dist/axios.min.js' %}"></script>
-  <script type="text/javascript">
-    {% include "mymedia/imagefile/picker/app.js" %}
-  </script>
-  <script type="text/javascript">
-    {% include "mymedia/imagefile/picker/jquery.js" %}
-  </script>
-
+<script type="text/javascript" src="{% static 'lib/vue/dist/vue.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/axios/dist/axios.min.js' %}"></script>
 {% endblock %}
