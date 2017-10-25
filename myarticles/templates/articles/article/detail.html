@@ -47,14 +47,6 @@ $(function(){
   });
 
   $("article")
-//    .on({'shown.bs.modal': function(e){
-//        console.log('show', e);  // e.relatedTarget is clicker.
-//        app.resetPicker(1);       // the very first page of Image File Picker
-//    }}, "#imagefile-picker")
-//    .on({'hidden.bs.modal': function(e){
-//        console.log('hide', e);
-//        console.log(app.selected);
-//    }}, "#imagefile-picker")
     .on({'click': function(){
         var parent = $(this).closest('div.element-container');
         var form = $(this).closest('form');
@@ -95,6 +87,8 @@ $(function(){
 {% block style %}{{ block.super }}
 <style>
 div.row { margin: 10px; padding-top:10px;}
+img.image-mediafile {width: 80%; }
+img.catch {width: 80%; }
 </style>
 
 <style> {# mymedia styles #}

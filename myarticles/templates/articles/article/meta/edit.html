@@ -1,15 +1,42 @@
 {% load i18n bootstrap3 %}
-<div class="row element-container panel panel-primary">
+<div class="row element-container panel panel-primary article-meta">
   <div class="col-md-12">
     <div class="article {{instance.contenttype.app_label }}-{{ instance.contenttype.model }} container" id="{{ instance.id }}">
       <form action="{% url 'myarticles_article_meta_edit' id=form.instance.id  %}"
         method="post" class="form-horizontal"> {% csrf_token %}
           {% bootstrap_form form layout='horizontal' label_class="col-md-2" %}
+
+
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="id_keywords">{% trans 'Catch' %}</label>
+            <div class="col-md-9">
+              <img src="{{ form.instance.catch.data.url }}" class="preview" width="80%"/>
+              <br>
+              <span type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagefile-picker">
+                  {% trans 'Select Image' %}
+              </span>
+            </div>
+          </div>
+
+
           {% buttons field_class="col-md-offset-2" %}
             <button class="btn btn-primary">{% trans 'Save' %}</button>
             <button class="btn btn-primary" value="detail">{% trans 'Cancel' %}</button>
           {% endbuttons %}
       </form>
+
+      <script>
+      $("article")
+          .on({'shown.bs.modal': function(e){
+              app.resetPicker(1);       // the very first page of Image File Picker
+          }}, "#imagefile-picker")
+          .on({'hidden.bs.modal': function(e){
+            var input = $("div.article-meta input[name='catch']");
+            var mediafile = app.selected_list[Object.keys(app.selected_list)[0]];
+            input.val(mediafile.id);     // set hidden input for MediaFile
+            input.parents('form').find('img.preview').attr('src', mediafile.data);  // preview
+          }}, "#imagefile-picker");
+      </script>
     </div>
   </div>
 </div>

@@ -10,6 +10,7 @@ class ArticleForm(forms.ModelForm):
     class Meta:
         model = models.Article
         fields = ['title', 'keywords', 'description', 'catch', ]
+        widgets = {'catch': forms.HiddenInput, }
 
 
 class ElementForm(object):
