@@ -19,8 +19,10 @@ $("article")
     .on({'hidden.bs.modal': function(e){
       var input = $("div[element-id='{{ form.instance.id }}'] input[name='mediafile']");
       var mediafile = app.selected_list[Object.keys(app.selected_list)[0]];
-      input.val(mediafile.id);     // set hidden input for MediaFile
-      input.parents('form').find('img.preview').attr('src', mediafile.data);  // preview
+      if(mediafile){
+        input.val(mediafile.id);     // set hidden input for MediaFile
+        input.parents('form').find('img.preview').attr('src', mediafile.data);  // preview
+      }
     }}, "#imagefile-picker");
 </script>
 {% endblock %}
