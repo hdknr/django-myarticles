@@ -1,0 +1,34 @@
+{% load i18n %}
+
+<div id="slide-{{ graph.element.id }}" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    {% for mediafile in graph.element.instance.album.files.all %}
+        <li data-target="#slide-{{ graph.element.id }}"
+          data-slide-to="{{ forloop.counter0}}" {% if forloop.counter0 == 0 %}class="active"{% endif %}></li>
+    {% endfor %}
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="text-center carousel-inner" role="listbox">
+
+    {% for mediafile in graph.element.instance.album.files.all %}
+    <div class="item {% if forloop.counter == 1 %}active{% endif %}">
+      <img src="{{ mediafile.data.url }}" alt="{{ mediafile.title }}">
+      <div class="carousel-caption"></div>
+    </div>
+    {% endfor %}
+
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#slide-{{ graph.element.id }}" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+
+  <a class="right carousel-control" href="#slide-{{ graph.element.id }}" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>

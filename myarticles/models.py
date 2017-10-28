@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from ordered_model.models import OrderedModel
-from mymedia.models import MediaFile
+from mymedia.models import MediaFile, Album
 from mylinks.models import Page
 from . import methods, defs
 
@@ -108,3 +108,15 @@ class Location(Element):
 
     def __str__(self):
         return self.address
+
+
+class Slide(Element):
+
+    album = models.ForeignKey(Album)
+
+    class Meta:
+        verbose_name = _('Slide')
+        verbose_name_plural = _('Slides')
+
+    def __str__(self):
+        return str(self.album)

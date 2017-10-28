@@ -80,4 +80,8 @@ class LocationAdmin(ElementAdmin):
     pass
 
 
+class SlideAdmin(ElementAdmin):
+    raw_id_fields = ElementAdmin.raw_id_fields + ['album']
+
+
 core_admin.register(__name__, globals(), [],)
