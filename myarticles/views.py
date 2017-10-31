@@ -92,7 +92,6 @@ class ElementView(core_views.View):
         name="myarticles_element_edit", order=60,
         perms=['articles.change_article'])
     def edit(self, request, id):
-        print(request.POST)
         instance = models.Element.objects.filter(id=id).first()
         instance = instance and instance.instance
         form_class = conf.form_for_contenttype(instance.contenttype())
@@ -104,8 +103,6 @@ class ElementView(core_views.View):
             mode = 'detail'
         elif mode == 'delete':
             instance.delete()
-
-        print("edit.....", mode, form.errors)
 
         return self.render(
             self.template_name(instance, mode), form=form, instance=instance)
@@ -137,14 +134,17 @@ class ElementView(core_views.View):
         if not insert_form.is_valid():
             return self.render('error')
 
-        form = insert_form.element_form_class(request.POST or None)
+        form = insert_form.element_form_class(
+            request.POST or None,
+            initial={'article':insert_form.cleaned_data['article']})
+
         if form.is_valid():
             form.instance.article = insert_form.cleaned_data['article']
             instance = form.save()
             instance.to(insert_form.cleaned_data['position'] + 1)
             return self.render(
                 self.template_name(instance, 'detail'), instance=instance)
-
+        print(form.errors)
         return self.render(
             self.template_name(
                 insert_form.cleaned_data['contenttype'], 'insert'),

@@ -2,6 +2,7 @@
 from django import forms
 from django.contrib.contenttypes.models import ContentType
 from mylinks.models import Page
+from mymedia.models import Album
 from . import models
 
 
@@ -107,10 +108,7 @@ class SlideForm(ElementForm, forms.ModelForm):
 
     class Meta:
         model = models.Slide
-        exclude = ['article', ]
-        widgets = {
-            'album': forms.HiddenInput,
-        }
+        exclude = ['article', 'album']
 
     def clean_mediafiles(self):
         return self.cleaned_data.get('mediafiles', None) or '[]'
@@ -121,6 +119,14 @@ class SlideForm(ElementForm, forms.ModelForm):
         return json.loads(self.cleaned_data.get('mediafiles'))
 
     def save(self, *args, **kwargs):
+        if not self.instance.article:
+            self.instance.article = self.initial.get('article', None)
+
+        if not self.instance.album_id:
+            self.instance.album = Album.objects.create(
+                owner=self.instance.article.author,
+                title="New Album", )
+
         instance = super(SlideForm, self).save(*args, **kwargs)
         mediafiles = self.mediafiles_list
         if instance.album and mediafiles:
