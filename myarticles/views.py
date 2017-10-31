@@ -92,6 +92,7 @@ class ElementView(core_views.View):
         name="myarticles_element_edit", order=60,
         perms=['articles.change_article'])
     def edit(self, request, id):
+        print(request.POST)
         instance = models.Element.objects.filter(id=id).first()
         instance = instance and instance.instance
         form_class = conf.form_for_contenttype(instance.contenttype())
@@ -103,6 +104,8 @@ class ElementView(core_views.View):
             mode = 'detail'
         elif mode == 'delete':
             instance.delete()
+
+        print("edit.....", mode, form.errors)
 
         return self.render(
             self.template_name(instance, mode), form=form, instance=instance)

@@ -2,8 +2,41 @@
 {% load bootstrap3 i18n %}
 
 {% block element_form %}
-<!-- TODO------>
+  {% bootstrap_form_errors form %}
+  {% bootstrap_form form layout="horizontal" %}
+    <span type="button" class="btn btn-primary select-image"> {% trans 'Select Images' %} </span>
 {% endblock %}
 
 {% block script_block %}
+
+{% include 'articles/mediafile.html' %}
+<script>
+$(function(){
+  app.openSlide({{ form.instance.album.files_in_json|safe }}, function(){
+      var items = app.$refs.slide.mediafiles.map(i => i.id );
+      var data = JSON.stringify(items);
+      $('div[element-id="{{ form.instance.id }}"] form input#id_mediafiles').val(data);
+  });
+
+  $("article")
+    .off('click', 'button[value="edit"]')
+    .off('click', '.select-image')
+    .off('hidden.bs.modal', '#imagefile-picker');
+
+  $("article")
+    .on({'click': function(e){
+      // set form hiddein input
+      var data = JSON.stringify(app.$refs.slide.mediafiles);
+      $(this).closest('form').find('input#id_mediafiles').val(data);
+  }}, 'button[value="edit"]')
+    .on({'click': function(e){
+        app.openPicker(10);
+  }}, ".select-image")
+    .on({'hidden.bs.modal': function(e){
+        console.log("image picker closed");
+        var mediafiles = app.getValues();
+        app.$refs.slide.addFiles(mediafiles);
+  }}, "#imagefile-picker");
+})
+</script>
 {% endblock %}

@@ -100,6 +100,36 @@ class LocationForm(ElementForm, forms.ModelForm):
         exclude = ['article', ]
 
 
+class SlideForm(ElementForm, forms.ModelForm):
+    mediafiles = forms.CharField(
+        required=False,
+        max_length=1024, widget=forms.HiddenInput)
+
+    class Meta:
+        model = models.Slide
+        exclude = ['article', ]
+        widgets = {
+            'album': forms.HiddenInput,
+        }
+
+    def clean_mediafiles(self):
+        return self.cleaned_data.get('mediafiles', None) or '[]'
+
+    @property
+    def mediafiles_list(self):
+        import json
+        return json.loads(self.cleaned_data.get('mediafiles'))
+
+    def save(self, *args, **kwargs):
+        instance = super(SlideForm, self).save(*args, **kwargs)
+        mediafiles = self.mediafiles_list
+        if instance.album and mediafiles:
+            if self.clean_mediafiles():
+                instance.album.update_files(mediafiles)
+
+        return instance
+
+
 class ElementInsertForm(forms.Form):
     article = forms.ModelChoiceField(
         queryset=models.Article.objects.all(), widget=forms.HiddenInput)

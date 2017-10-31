@@ -1,10 +1,11 @@
 {% extends 'articles/element/detail_base.html'  %}
 {% block element_blcok %}
 
+
 <div id="slide-{{ instance.id }}" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
-    {% for mediafile in instance.album.files.all %}
+    {% for mediafile in instance.album.files_in_order %}
         <li data-target="#slide-{{ instance.id }}"
           data-slide-to="{{ forloop.counter0}}" {% if forloop.counter0 == 0 %}class="active"{% endif %}></li>
     {% endfor %}
@@ -13,7 +14,7 @@
   <!-- Wrapper for slides -->
   <div class="text-center carousel-inner" role="listbox">
 
-    {% for mediafile in instance.album.files.all %}
+    {% for mediafile in instance.album.files_in_order %}
     <div class="item {% if forloop.counter == 1 %}active{% endif %}">
       <img src="{{ mediafile.data.url }}" alt="{{ mediafile.title }}">
       <div class="carousel-caption"></div>

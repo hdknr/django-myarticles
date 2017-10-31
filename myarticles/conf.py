@@ -10,6 +10,7 @@ FORMS = {
     'section': forms.SectionForm,
     'subsection': forms.SubsectionForm,
     'text': forms.TextForm,
+    'slide': forms.SlideForm,
 }
 
 

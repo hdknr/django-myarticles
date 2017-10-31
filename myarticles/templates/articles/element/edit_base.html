@@ -6,12 +6,13 @@
       <form action="{% url 'myarticles_element_edit' id=form.instance.id %}" class="form form-horizontal" method="post"> {% csrf_token %}
           {% block element_form %}
           {% endblock %}
-
-          {% buttons field_class="col-md-offset-10" %}
-            <button class="btn btn-primary" value="delete">{% trans 'Delete' %}</button>
-            <button class="btn btn-primary" value="edit">{% trans 'Save' %}</button>
-            <button class="btn btn-primary" value="detail">{% trans 'Cancel' %}</button>
-          {% endbuttons %}
+          {% block form_buttons %}
+            {% buttons field_class="col-md-offset-10" %}
+              <button class="btn btn-primary" value="delete">{% trans 'Delete' %}</button>
+              <button class="btn btn-primary" value="edit">{% trans 'Save' %}</button>
+              <button class="btn btn-primary" value="detail">{% trans 'Cancel' %}</button>
+            {% endbuttons %}
+          {% endblock %}
       </form>
     {% endblock %}
     </div>
