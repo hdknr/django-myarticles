@@ -2,7 +2,6 @@
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.contrib.contenttypes.models import ContentType
-from mywords.models import Word
 from corekit.methods import CoreModel
 from . import signals
 
@@ -49,15 +48,6 @@ class Graph(object):
 
 class Article(CoreModel):
 
-    def update_links(self):
-        if self.keywords:
-            for i in self.keywords.split(','):
-                i = i and i.strip()
-                word, created = Word.objects.get_or_create(text=i)
-                if word:
-                    word.link_set.get_or_create(
-                        content_type=self.contenttype(), object_id=self.id)
-
     @property
     def graph(self):
         root = Graph(self, None)
@@ -72,13 +62,6 @@ class Article(CoreModel):
         return render_to_string(
             'articles/article/content.html',
             context=dict(graph=self.graph))
-
-#     def insert_element(self, app_label, model_class, position):
-#         element_class = ContentType.objects.get_by_natural_key(
-#             app_label, model_class)
-#         elm = element_class.create(article=self)
-#         elm.to(position)
-#         return elm
 
 
 class Element(CoreModel):
