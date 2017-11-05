@@ -26,6 +26,8 @@
 {% endblock %}
 
 {% block article_script %}
+<script type="text/javascript" src="{% static 'lib/vue/dist/vue.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/axios/dist/axios.min.js' %}"></script>
 <script>  {# jqeury-ui-dist, jquery, bootstrap #}
 $(function(){
 
@@ -89,10 +91,4 @@ div.row { margin: 10px; padding-top:10px;}
 img.image-mediafile {width: 80%; }
 img.catch {width: 80%; }
 </style>
-{% endblock %}
-
-
-{% block local_script %} {# mymedia code (Vue.js) #}
-<script type="text/javascript" src="{% static 'lib/vue/dist/vue.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'lib/axios/dist/axios.min.js' %}"></script>
 {% endblock %}

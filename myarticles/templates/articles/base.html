@@ -4,3 +4,9 @@
   {% block myarticles_content %}
   {% endblock %}
 {% endblock %}
+
+{% block local_script %}{{ block.super }}
+  <!--- myarticles local script ---->
+  {% block article_script %}
+  {% endblock %}
+{% endblock %}
