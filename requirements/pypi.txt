@@ -9,3 +9,6 @@ django-bootstrap3
 
 # Filter
 django-filter
+
+# Texts
+mistune

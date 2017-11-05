@@ -2,9 +2,13 @@
 from django import template
 from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
+from django.conf import settings
+from importlib import import_module
 from corekit import utils, methods
 from .. import models, forms
 register = template.Library()
+
+CONF = getattr(settings, 'MYARTICLES', {})
 
 
 @register.simple_tag(takes_context=False)
@@ -32,3 +36,9 @@ def elements():
 @register.simple_tag
 def element_insert_form(prefix='insert-element'):
     return forms.ElementInsertForm(prefix=prefix)
+
+
+@register.filter
+def markdown(src):
+    mod, func = CONF.get('markdown', 'mistune.markdown').rsplit('.', 1)
+    return getattr(import_module(mod), func)(src)
