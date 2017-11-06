@@ -2,5 +2,5 @@
 {% load myarticlestags %}
 
 {% block element_blcok %}
-  {{ instance.texts|markdown }}
+  {{ instance.texts|markdown|safe }}
 {% endblock %}

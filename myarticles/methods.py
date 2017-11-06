@@ -3,7 +3,6 @@ from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.contrib.contenttypes.models import ContentType
 from corekit.methods import CoreModel
-from . import signals
 
 
 class Graph(object):

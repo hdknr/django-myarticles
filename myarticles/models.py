@@ -31,7 +31,7 @@ class Element(OrderedModel, methods.Element):
 
 class Section(Element):
 
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, default=_('Section'))
 
     class Meta:
         verbose_name = _('Section')
@@ -43,7 +43,7 @@ class Section(Element):
 
 class Subsection(Element):
 
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, default=_('Subsection'))
 
     class Meta:
         verbose_name = _('Subsection')
