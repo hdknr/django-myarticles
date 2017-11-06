@@ -14,7 +14,7 @@ $(function(){
   app.openSlide([], function(){
       var items = app.$refs.slide.mediafiles.map(i => i.id );
       var data = JSON.stringify(items);
-      $('element-insert form input#id_mediafiles').val(data);
+      $('form#element-insert-form input#id_mediafiles').val(data);
   });
 
   $("article")
@@ -32,7 +32,6 @@ $(function(){
         app.openPicker(10);
   }}, ".select-image")
     .on({'hidden.bs.modal': function(e){
-        console.log("image picker closed");
         var mediafiles = app.getValues();
         app.$refs.slide.addFiles(mediafiles);
   }}, "#imagefile-picker");

@@ -1,9 +1,9 @@
 {% load i18n bootstrap3 %}
 <div class="row panel panel-default element-container element-insert">
   <div class="col-md-12">
-    <div class="element {{ instance.contenttype.app_label }}-{{ instance.contenttype.model }}" id="{{ instance.id }}">
+    <div>
     {% block element_blcok %}
-      <form action="{% url 'myarticles_element_insert' %}" class="form form-horizontal" method="post"> {% csrf_token %}
+      <form id="element-insert-form" action="{% url 'myarticles_element_insert' %}" class="form form-horizontal" method="post"> {% csrf_token %}
           {{ insert_form }}
           {% block element_form %}
           {% endblock %}

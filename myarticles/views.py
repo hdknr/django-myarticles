@@ -138,13 +138,13 @@ class ElementView(core_views.View):
             request.POST or None,
             initial={'article':insert_form.cleaned_data['article']})
 
-        if form.is_valid():
+        if request.method == 'POST' and form.is_valid():
             form.instance.article = insert_form.cleaned_data['article']
             instance = form.save()
             instance.to(insert_form.cleaned_data['position'] + 1)
             return self.render(
                 self.template_name(instance, 'detail'), instance=instance)
-        print(form.errors)
+
         return self.render(
             self.template_name(
                 insert_form.cleaned_data['contenttype'], 'insert'),

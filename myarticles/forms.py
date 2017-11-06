@@ -1,6 +1,8 @@
 # coding: utf-8
 from django import forms
 from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import ugettext_lazy as _
+
 from mylinks.models import Page
 from mymedia.models import Album
 from . import models
@@ -111,7 +113,11 @@ class SlideForm(ElementForm, forms.ModelForm):
         exclude = ['article', 'album']
 
     def clean_mediafiles(self):
-        return self.cleaned_data.get('mediafiles', None) or '[]'
+        res = self.cleaned_data.get('mediafiles', None) or '[]'
+        if not hasattr(self.instance, 'album'):     # or self.instance.album.files.count() < 2:
+            if res == '[]':
+                raise forms.ValidationError(_('MediaFile is required'))
+        return res
 
     @property
     def mediafiles_list(self):
@@ -145,6 +151,5 @@ class ElementInsertForm(forms.Form):
 
     @property
     def element_form_class(self):
-        print(self.cleaned_data)
         return ElementForm.for_model(
             self.cleaned_data['contenttype'].model_class())

@@ -4,11 +4,10 @@
 {% block element_form %}
   {% bootstrap_form_errors form %}
   {% bootstrap_form form layout="horizontal" %}
-    <span type="button" class="btn btn-primary select-image"> {% trans 'Select Images' %} </span>
+  <span type="button" class="btn btn-primary select-image"> {% trans 'Select Images' %} </span>
 {% endblock %}
 
 {% block script_block %}
-
 {% include 'articles/mediafile.html' %}
 <script>
 $(function(){
