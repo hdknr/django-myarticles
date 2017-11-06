@@ -71,7 +71,6 @@ class ElementView(core_views.View):
 
         res = 'articles/element/{1}.{2}/{0}.html'.format(
             name, *contentype.natural_key())
-        print("tempalten name", res)
         return res
 
     @core_views.handler(
@@ -138,14 +137,15 @@ class ElementView(core_views.View):
             request.POST or None,
             initial={'article':insert_form.cleaned_data['article']})
 
-        if request.method == 'POST' and form.is_valid():
+        mode = request.POST.get('mode', None) or 'insert'
+        if mode == 'insert' and request.method == 'POST' and form.is_valid():
             form.instance.article = insert_form.cleaned_data['article']
             instance = form.save()
-            instance.to(insert_form.cleaned_data['position'] + 1)
+            instance.to(insert_form.cleaned_data['position'] + 1)   # 位置
             return self.render(
                 self.template_name(instance, 'detail'), instance=instance)
 
         return self.render(
             self.template_name(
-                insert_form.cleaned_data['contenttype'], 'insert'),
+                insert_form.cleaned_data['contenttype'], mode),
             form=form, insert_form=insert_form)
