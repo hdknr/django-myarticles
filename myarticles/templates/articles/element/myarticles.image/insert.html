@@ -14,7 +14,7 @@
 <script>
 $("article")
     .on({'shown.bs.modal': function(e){
-        app.resetPicker(1);       // the very first page of Image File Picker
+        app.openPicker();       // the very first page of Image File Picker
     }}, "#imagefile-picker")
     .on({'hidden.bs.modal': function(e){
       var input = $("div.element-insert input[name='mediafile']");
