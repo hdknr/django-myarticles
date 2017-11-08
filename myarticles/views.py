@@ -21,6 +21,10 @@ class ArticleView(core_views.View):
         perms=['articles.change_article'])
     def detail(self, request, id):
         instance = models.Article.objects.filter(id=id).first()
+
+        if not instance.check_perm(request.user):
+            return self.not_authorized()
+
         return self.render(
             'articles/article/detail.html', instance=instance)
 
@@ -30,6 +34,10 @@ class ArticleView(core_views.View):
         perms=['articles.change_article'])
     def meta_edit(self, request, id):
         instance = models.Article.objects.filter(id=id).first()
+
+        if not instance.check_perm(request.user):
+            return self.not_authorized()
+
         form = forms.ArticleForm(request.POST or None, instance=instance)
         mode = request.POST.get('mode', None) or 'edit'
         if mode == 'edit' and request.method == 'POST' and form.is_valid():
@@ -55,6 +63,10 @@ class ArticleView(core_views.View):
         perms=['articles.change_article'])
     def edit(self, request, id):
         instance = models.Article.filter(id=id).first()
+
+        if not instace.check_perm(request.user):
+            return self.not_authorized()
+
         form = forms.ArtileForm(request.POST or None, instance=instance)
         if request.method == 'POST' and form.is_valid():
             form.save()
@@ -92,6 +104,9 @@ class ElementView(core_views.View):
         perms=['articles.change_article'])
     def edit(self, request, id):
         instance = models.Element.objects.filter(id=id).first()
+        if not instance.article.check_perm(request.user):
+            return self.not_authorized()
+
         instance = instance and instance.instance
         form_class = conf.form_for_contenttype(instance.contenttype())
         form = form_class(request.POST or None, instance=instance)
@@ -114,8 +129,12 @@ class ElementView(core_views.View):
         to = request.POST.get('to', '')
         id = request.POST.get('id', '')
         instance = models.Element.objects.filter(id=id).first()
+
         if not instance:
             return self.page_not_found()
+        if not instance.article.check_perm(request.user):
+            return self.not_authorized()
+
         if to.isdigit():
             instance.to(int(to))
         instance = instance.instance
@@ -133,9 +152,12 @@ class ElementView(core_views.View):
         if not insert_form.is_valid():
             return self.render('error')
 
+        article = insert_form.cleaned_data.get('article', None)
+        if not article or not article.check_perm(request.user):
+            return self.not_authorized()
+
         form = insert_form.element_form_class(
-            request.POST or None,
-            initial={'article':insert_form.cleaned_data['article']})
+            request.POST or None, initial={'article': article})
 
         mode = request.POST.get('mode', None) or 'insert'
         if mode == 'insert' and request.method == 'POST' and form.is_valid():

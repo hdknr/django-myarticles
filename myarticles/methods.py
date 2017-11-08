@@ -62,6 +62,10 @@ class Article(CoreModel):
             'articles/article/content.html',
             context=dict(graph=self.graph))
 
+    def check_perm(self, user, code='articles.change_article'):
+        # subclass model MUST implement has_perm method
+        return self.instance.has_perm(user, code)
+
 
 class Element(CoreModel):
 
