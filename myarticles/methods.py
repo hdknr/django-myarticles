@@ -66,6 +66,9 @@ class Article(CoreModel):
         # subclass model MUST implement has_perm method
         return self.instance.has_perm(user, code)
 
+    def get_edit_url(self):
+        return reverse('myarticles_article_detail', kwargs={'id': self.id})
+
 
 class Element(CoreModel):
 

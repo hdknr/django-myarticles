@@ -7,15 +7,6 @@ from . import filters, models, forms, conf
 class ArticleView(core_views.View):
 
     @core_views.handler(
-        url=r'',
-        name="myarticles_article_index", order=90,
-        perms=['articles.change_article'])
-    def index(self, request):
-        instances = filters.ArticleFilter(request.GET)
-        return self.render(
-            'articles/article/index.html', instances=instances)
-
-    @core_views.handler(
         url=r'(?P<id>\d+)',
         name="myarticles_article_detail", order=70,
         perms=['articles.change_article'])
@@ -56,22 +47,6 @@ class ArticleView(core_views.View):
         instance = models.Article.objects.filter(id=id).first()
         return self.render(
             'articles/article/meta/detail.html', instance=instance)
-
-    @core_views.handler(
-        url=r'(?P<id>\d+)/edit',
-        name="myarticles_article_edit", order=70,
-        perms=['articles.change_article'])
-    def edit(self, request, id):
-        instance = models.Article.filter(id=id).first()
-
-        if not instace.check_perm(request.user):
-            return self.not_authorized()
-
-        form = forms.ArtileForm(request.POST or None, instance=instance)
-        if request.method == 'POST' and form.is_valid():
-            form.save()
-        return self.render(
-            'articles/article/edit.html', form=form)
 
 
 class ElementView(core_views.View):
