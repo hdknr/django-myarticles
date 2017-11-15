@@ -26,11 +26,11 @@
 {% endblock %}
 
 {% block article_script %}
-<script type="text/javascript" src="{% static 'lib/vue/dist/vue.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'lib/axios/dist/axios.min.js' %}"></script>
+{# <script type="text/javascript" src="{% static 'lib/vue/dist/vue.min.js' %}"></script> #}
+{# <script type="text/javascript" src="{% static 'lib/axios/dist/axios.min.js' %}"></script> #}
 <script>  {# jqeury-ui-dist, jquery, bootstrap #}
-$(function(){
 
+$(document).ready(function(){
   $('.carousel').carousel();      // SLIDE
 
   {# http://api.jqueryui.com/sortable/ #}
@@ -87,6 +87,8 @@ $(function(){
 
 {% block style %}{{ block.super }}
 <style>
+{% include 'mymedia/imagefile/vue/gallery.css' %}
+
 div.row { margin: 10px; padding-top:10px;}
 img.image-mediafile {width: 80%; }
 img.catch {width: 80%; }

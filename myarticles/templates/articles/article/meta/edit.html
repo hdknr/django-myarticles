@@ -28,14 +28,13 @@
 
   {% include 'articles/mediafile.html' %}
   <script>
-  $("article")
-      .on({'click': function(e){app.openPicker(); }}, ".select-image")
-      .on({'hidden.bs.modal': function(e){
+  function onSelected(mediafile){
         var input = $("div.article-meta input[name='catch']");
-        var mediafile = app.getValues()[0];
         input.val(mediafile.id);     // set hidden input for MediaFile
         input.parents('form').find('img.preview').attr('src', mediafile.data);  // preview
-        }}, "#imagefile-picker");
+  }
+  $("article")
+      .on({'click': function(e){app.showGallery(onSelected); }}, ".select-image");
   </script>
 
 </div>

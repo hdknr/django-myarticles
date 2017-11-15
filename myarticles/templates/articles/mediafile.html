@@ -1,19 +1,60 @@
 {% load staticfiles %}
-<div id="app">{# mymedia application(Vue.js) #}
-  {% include "mymedia/imagefile/picker/app.html" %}
+{% load mymediatags %}
+{% get_csrftoken as token %}   {# CSRF TOKEN #}
+
+{% include 'mymedia/imagefile/vue/gallery.html' %}
+{% include 'mymedia/imagefile/vue/uploader.html' %}
+
+<div id=app>
+  {# <b-button size="sm" variant="primary" @click="showGallery">Open Gallery</b-button> #}
+  <mymedia-gallery ref="gallery"
+    :modal-state="galleryShow"        {# Gallery.modalState にバインド #}
+    @on-upload="onShowUploader"
+    @on-select="onImageSelected"></mymedia-gallery> {# Gallery.modalState にバインド #}
+
+  <mymedia-uploader
+    ref="uploader" :modal-state="uploaderShow" >{# Uploader.modalState にバインド #}
+  </mymedia-uploader>
 </div>
-<style> {# mymedia styles #}
-{% include "mymedia/imagefile/picker/style.css" %}
-</style>
-{% include "mymedia/imagefile/picker/uploader.html" %}
-{% include "mymedia/imagefile/picker/selection.html" %}
-{% include "mymedia/imagefile/picker/thumbnail.html" %}
-{% include "mymedia/imagefile/picker/carousel.html" %}
-{% include "mymedia/imagefile/picker/picker.html" %}
-{% include "mymedia/imagefile/picker/slide.html" %}
-<script type="text/javascript">
-  {% include "mymedia/imagefile/picker/app.js" %}
-</script>
-<script type="text/javascript">
-  {% include "mymedia/imagefile/picker/jquery.js" %}
+
+<script>
+Vue.options.delimiters = ['{[{', '}]}'];        // Django テンプレートとバッティングしないように変更
+{% include 'mymedia/imagefile/vue/gallery.js' %}
+{% include 'mymedia/imagefile/vue/uploader.js' %}
+
+var app = new Vue({
+  el: '#app',
+  components: {
+    'mymedia-gallery': Gallery,
+    'mymedia-uploader': Uploader
+  },
+  data:{
+    csrftoken: '{{ token }}',
+    galleryShow: false,
+    uploaderShow: false,
+    callback: function(){}
+  },
+  computed: {
+  },
+  methods:  {
+      showGallery(callback){
+        if(callback != undefined)
+            this.callback = callback;
+        this.$refs.gallery.$refs.dialog.show();
+      },
+      onShowUploader(image){
+        if(image){
+          this.$refs.uploader.setOriginal(image);
+        }
+        this.$refs.uploader.$refs.dialog.show();
+      },
+      onImageSelected(image, selected){
+        if(selected == true){
+            this.callback(image);
+            this.$refs.gallery.$refs.dialog.hide();
+        }
+      }
+  }
+
+});
 </script>
