@@ -4,9 +4,10 @@
 
 {% include 'mymedia/imagefile/vue/gallery.html' %}
 {% include 'mymedia/imagefile/vue/uploader.html' %}
+{% include 'mymedia/imagefile/vue/slide.html' %}
 
 <div id=app>
-  {# <b-button size="sm" variant="primary" @click="showGallery">Open Gallery</b-button> #}
+
   <mymedia-gallery ref="gallery"
     :modal-state="galleryShow"        {# Gallery.modalState にバインド #}
     @on-upload="onShowUploader"
@@ -15,23 +16,30 @@
   <mymedia-uploader
     ref="uploader" :modal-state="uploaderShow" >{# Uploader.modalState にバインド #}
   </mymedia-uploader>
+
+  <mymedia-slide
+    ref="slide" :modal-state="slideShow">
+  </mymedia-slide>
 </div>
 
 <script>
 Vue.options.delimiters = ['{[{', '}]}'];        // Django テンプレートとバッティングしないように変更
 {% include 'mymedia/imagefile/vue/gallery.js' %}
 {% include 'mymedia/imagefile/vue/uploader.js' %}
+{% include 'mymedia/imagefile/vue/slide.js' %}
 
 var app = new Vue({
   el: '#app',
   components: {
     'mymedia-gallery': Gallery,
-    'mymedia-uploader': Uploader
+    'mymedia-uploader': Uploader,
+    'mymedia-slide': Slide
   },
   data:{
     csrftoken: '{{ token }}',
     galleryShow: false,
     uploaderShow: false,
+    slideShow: false,
     callback: function(){}
   },
   computed: {
@@ -50,8 +58,9 @@ var app = new Vue({
       },
       onImageSelected(image, selected){
         if(selected == true){
-            this.callback(image);
-            this.$refs.gallery.$refs.dialog.hide();
+            if( this.callback(image) ){
+              this.$refs.gallery.$refs.dialog.hide();
+            }
         }
       }
   }

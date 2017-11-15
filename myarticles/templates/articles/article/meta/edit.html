@@ -32,6 +32,7 @@
         var input = $("div.article-meta input[name='catch']");
         input.val(mediafile.id);     // set hidden input for MediaFile
         input.parents('form').find('img.preview').attr('src', mediafile.data);  // preview
+        return true;
   }
   $("article")
       .on({'click': function(e){app.showGallery(onSelected); }}, ".select-image");
