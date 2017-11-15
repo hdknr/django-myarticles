@@ -4,7 +4,7 @@
 {% block element_form %}
   <img src="" class="preview" width="80%"/>
   {% bootstrap_form form layout="horizontal" %}
-  <span type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagefile-picker">
+  <span type="button" class="select-image">
       {% trans 'Select Image' %}
   </span>
 {% endblock %}
@@ -12,15 +12,12 @@
 {% block script_block %}
 {% include 'articles/mediafile.html' %}
 <script>
-$("article")
-    .on({'shown.bs.modal': function(e){
-        app.openPicker();       // the very first page of Image File Picker
-    }}, "#imagefile-picker")
-    .on({'hidden.bs.modal': function(e){
+function onSelected(mediafile){
       var input = $("div.element-insert input[name='mediafile']");
-      var mediafile = app.selected_list[Object.keys(app.selected_list)[0]];
       input.val(mediafile.id);     // set hidden input for MediaFile
       input.parents('form').find('img.preview').attr('src', mediafile.data);  // preview
-    }}, "#imagefile-picker");
+}
+$("article")
+    .on({'click': function(e){app.showGallery(onSelected); }}, ".select-image");
 </script>
 {% endblock %}

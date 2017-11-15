@@ -12,18 +12,11 @@
 {% block script_block %}
 {% include 'articles/mediafile.html' %}
 <script>
+function onSelected(mediafile){
+    var input = $("div[element-id='{{ form.instance.id }}'] input[name='mediafile']");
+    input.val(mediafile.id);     // set hidden input for MediaFile
+    input.parents('form').find('img.preview').attr('src', mediafile.data);  // preview
+}
 $("article")
-  .on({'click': function(e){
-      app.openPicker();
-  }}, ".select-image")
-  .on({'hidden.bs.modal': function(e){
-      var input = $("div[element-id='{{ form.instance.id }}'] input[name='mediafile']");
-      {# var mediafile = app.selected_list[Object.keys(app.selected_list)[0]]; #}
-      var mediafile = app.getValues()[0];
-      if(mediafile){
-        input.val(mediafile.id);     // set hidden input for MediaFile
-        input.parents('form').find('img.preview').attr('src', mediafile.data);  // preview
-      }
-    }}, "#imagefile-picker");
-</script>
+    .on({'click': function(e){app.showGallery(onSelected); }}, ".select-image");</script>
 {% endblock %}
