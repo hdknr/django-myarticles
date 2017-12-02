@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from ordered_model.models import OrderedModel
 from mymedia.models import MediaFile, Album
 from mylinks.models import Page
@@ -19,7 +20,8 @@ class Article(defs.Article, methods.Article):
 
 class Element(OrderedModel, methods.Element):
     article = models.ForeignKey(Article)
-
+    content_type = models.ForeignKey(
+        ContentType, null=True, default=None, blank=True)
     order_with_respect_to = 'article'
     order_class_path = 'myarticles.models.Element'
 
@@ -27,6 +29,10 @@ class Element(OrderedModel, methods.Element):
         verbose_name = _('Element')
         verbose_name_plural = _('Elements')
         ordering = ['article', 'order', ]
+
+    def save(self, *args, **kwargs):
+        self.content_type =  ContentType.objects.get_for_model(self)
+        super(Element, self).save(*args, **kwargs)
 
 
 class Section(Element):

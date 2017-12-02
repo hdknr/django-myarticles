@@ -18,15 +18,10 @@ def admin_change_link(obj):
 class ElementAdminInline(OrderedTabularInline):
     model = models.Element
     extra = 0
-    readonly_fields = ['id', 'elm', 'instance_admin', 'order', 'move_up_down_links', ]
+    readonly_fields = ['id', 'content_type', 'instance_admin', 'order', 'move_up_down_links', ]
 
     def instance_admin(self, obj):
         return admin_change_link(obj.instance)
-
-    def elm(self, obj):
-        return obj.instance.contenttype()
-
-    elm.short_description = _('Element Type')
 
 
 class ArticleAdmin(core_admin.CoreAdmin):

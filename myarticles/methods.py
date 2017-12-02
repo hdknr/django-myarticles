@@ -1,7 +1,8 @@
-# coding: utf-8
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.contrib.contenttypes.models import ContentType
+from django.utils.functional import cached_property
+
 from corekit.methods import CoreModel
 
 
@@ -100,3 +101,7 @@ class Element(CoreModel):
         return render_to_string(
             'articles/element/{}/content.html'.format(self.element_fullname),
             context=kwargs)
+
+    @cached_property
+    def instance(self):
+        return self.content_type.get_object_for_this_type(id=self.id)

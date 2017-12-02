@@ -12,3 +12,7 @@ django-filter
 
 # Texts
 mistune
+
+# REST
+djangorestframework
+djangorestframework-filter
