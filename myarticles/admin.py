@@ -2,6 +2,7 @@
 from django.utils.safestring import SafeString as _S
 from django.utils.translation import ugettext_lazy as _
 from django.template import Template, Context
+from django.contrib.contenttypes.models import ContentType
 from corekit import admin as core_admin
 from ordered_model.admin import OrderedTabularInline
 from . import models, forms
