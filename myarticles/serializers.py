@@ -24,6 +24,21 @@ class ContentTypeField(serializers.Field):
 class AbstractElementSerializer(serializers.ModelSerializer):
     content_type = ContentTypeField()
 
+    def post_save(self, instance):
+        request = self.context.get('request', None)
+        if 'order' in request.data:
+            instance.to(int(request.data['order']))       # MOVE
+        return instance
+
+    def update(self, instance, validated_data):
+        instance = super(AbstractElementSerializer,
+                         self).update(instance, validated_data)
+        return self.post_save(instance)
+
+    def create(self, validated_data):
+        instance = super(AbstractElementSerializer, self).create(validated_data)
+        return self.post_save(instance)
+
 
 class SectionSerializer(AbstractElementSerializer):
 
