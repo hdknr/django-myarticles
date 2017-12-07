@@ -31,7 +31,9 @@ class Element(OrderedModel, methods.Element):
         ordering = ['article', 'order', ]
 
     def save(self, *args, **kwargs):
-        self.content_type =  ContentType.objects.get_for_model(self)
+        content_type = ContentType.objects.get_for_model(self)
+        if content_type.model != 'element':
+            self.content_type = content_type        
         super(Element, self).save(*args, **kwargs)
 
 

@@ -105,3 +105,7 @@ class Element(CoreModel):
     @cached_property
     def instance(self):
         return self.content_type.get_object_for_this_type(id=self.id)
+
+    @cached_property
+    def resovled_instance(self):
+        return super(Element, self).instance

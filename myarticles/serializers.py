@@ -1,11 +1,13 @@
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
-from mymedia.serializers import OpenMediaFileSerializer, AlbumSerializer
+from mymedia.serializers import (
+    OpenMediaFileSerializer, AlbumSerializer, MediaFileSerializer, )
 from mylinks.serializers import PageSerializer
 from . import models, conf
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+    catch = MediaFileSerializer(many=False, read_only=True)
 
     class Meta:
         model = models.Article
@@ -13,12 +15,13 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class ContentTypeField(serializers.Field):
+    SPLITER = '_'
 
     def to_representation(self, obj):
-        return ".".join(obj.natural_key())
+        return self.SPLITER.join(obj.natural_key())
 
     def to_internal_value(self, data):
-        return ContentType.objects.get_by_natural_key(*data.split('.'))
+        return ContentType.objects.get_by_natural_key(*data.split(self.SPLITER))
 
 
 class AbstractElementSerializer(serializers.ModelSerializer):

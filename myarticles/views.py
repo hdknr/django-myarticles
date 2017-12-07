@@ -18,7 +18,7 @@ class ArticleView(core_views.View):
 
         return self.render(
             'articles/article/detail.html', instance=instance)
-
+            
     @core_views.handler(
         url=r'(?P<id>\d+)/meta/edit',
         name="myarticles_article_meta_edit", order=60,

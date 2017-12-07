@@ -2,6 +2,7 @@ from django.contrib.contenttypes.models import ContentType
 from collections import OrderedDict
 from rest_framework import viewsets, pagination, permissions
 from rest_framework.response import Response
+from mymedia.models import MediaFile
 from . import models, serializers, filters
 
 
@@ -28,6 +29,12 @@ class ArticleViewSet(viewsets.ModelViewSet):
     filter_class = filters.ArticleFilter
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     pagination_class = Pagination
+
+    def perform_update(self, serializer):
+        catch = MediaFile.objects.filter(
+            id=self.request.data.get('catch', {}).get('id', None)).first()
+        params = catch and {'catch': catch} or {}
+        serializer.save(**params)
 
 
 class ElementViewSet(viewsets.ModelViewSet):
