@@ -25,7 +25,6 @@ var myArticlesArticle = Vue.extend({
           return this.endpoint;
     },
     update(){
-      console.log("uploading....")
       var url = this.get_endpoint(this.value);
       var vm = this;
       var config = {};

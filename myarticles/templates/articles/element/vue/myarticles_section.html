@@ -1,5 +1,9 @@
 <script type="text/x-template" id="myarticles_section_template">
   <b-row>
-    {[{ value.content_type }]}
+    <b-col cols="12">
+    <h2>
+      <mymedia-text :value="value.title" @input="v => {update(v);}"> </mymedia-text>
+    </h2>
+    </b-col>
   </b-row>
 </script>
