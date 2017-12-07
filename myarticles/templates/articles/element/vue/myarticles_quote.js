@@ -1,13 +1,13 @@
 var myArticlesQuote = Vue.extend({
+  props: ['value', ],
   template: '#myarticles_quote_template',
-  props: ['value', ],   
-  data: function(){
-    return {
-    };
-  },
-  created(){
-  },
+  mixins: [myArticleElement],
+  components:{ 'mymedia-text': TextComponent, },
   methods: {
+    update(){
+        this.send(this.value).then((res) =>{
+            this.$emit('input', this.value);
+        });
+    }
   }
 });
-
