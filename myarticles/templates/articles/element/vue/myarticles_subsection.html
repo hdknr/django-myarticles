@@ -1,5 +1,11 @@
 <script type="text/x-template" id="myarticles_subsection_template">
+<div style="margin: 5px">
   <b-row>
-    {[{ value.content_type }]}
+    <b-col cols="12">
+    <h3>
+      <mymedia-text :value="value.title" @input="v => {update(v);}"> </mymedia-text>
+    </h3>
+    </b-col>
   </b-row>
+</div>
 </script>

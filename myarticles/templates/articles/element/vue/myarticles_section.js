@@ -1,37 +1,14 @@
-var myArticlesSection = Vue.extend({
+myArticlesSection = Vue.extend({
   template: '#myarticles_section_template',
+  mixins: [myArticleElement],
   props: ['value', ],
-  components:{
-    'mymedia-text': TextComponent,
-  },
-  data: function(){
-    return {
-    };
-  },
-  created(){
-  },
+  components:{ 'mymedia-text': TextComponent, },
   methods: {
-    get_endpoint(instance){
-        url = "{% url 'element-list' %}";
-        if(instance.id){
-            return url+ instance.id + '/';
-        }
-        return url;
-    },
-    send(){
-        var url = this.get_endpoint(this.value);
-        var vm = this;
-        var config = {};
-        axios.defaults.xsrfCookieName = 'csrftoken';
-        axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-        var method = vm.value.id ? 'patch': 'post';
-        return axios[method](url, vm.value, config).then((res) =>{
-            vm.$emit('input', vm.value);
-        });
-    },
     update(title){
         this.value.title = title;
-        this.send();
+        this.send(this.value).then((res) =>{
+            this.$emit('input', this.value);
+        });
     }
   }
 });

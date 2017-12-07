@@ -1,3 +1,4 @@
+{% include "articles/element/vue/myarticles_element.js" %}
 {% include "articles/element/vue/myarticles_article.js" %}
 {% include "articles/element/vue/myarticles_section.js" %}
 {% include "articles/element/vue/myarticles_subsection.js" %}
