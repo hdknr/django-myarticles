@@ -1,5 +1,13 @@
 <script type="text/x-template" id="myarticles_link_template">
-  <b-row>
-    {[{ value.content_type }]}
-  </b-row>
-</script>
+  <div style="margin: 5px">
+    <b-row>
+      <b-col cols="12">
+        <mymedia-text :value="value.page_data.url"
+          @input="v => {value.page_data.url=v; update();}"> </mymedia-text>
+        <p>
+        <div v-if="value.page_data.embed" v-html="value.page_data.embed">
+        </div>
+      </b-col>
+    </b-row>
+  </div>
+  </script>
