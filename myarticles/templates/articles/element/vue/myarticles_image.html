@@ -16,7 +16,7 @@
 
     <b-img fluid class="rounded" style="padding-top: 5px"
       @click="$refs.gallery.$refs.dialog.show()"
-      :src="value.catch.data" >
+      :src="value.mediafile.data" >
     </b-img>
 
     <mymedia-gallery ref="gallery" @on-select="onImageSelected"></mymedia-gallery>
@@ -25,7 +25,7 @@
   </b-col>
 
   <b-col :cols="meta_cols" v-if="show_meta" style="transition: .4s; " >
-    <mymedia-mediafile v-model="value.catch"></mymedia-mediafile>
+    <mymedia-mediafile v-model="value.mediafile"></mymedia-mediafile>
   </b-col>
 </b-row>
 

@@ -3,6 +3,7 @@ from rest_framework import serializers
 from mymedia.serializers import (
     OpenMediaFileSerializer, AlbumSerializer, MediaFileSerializer, )
 from mylinks.serializers import PageSerializer
+from mymedia.models import MediaFile
 from . import models, conf
 
 
@@ -65,6 +66,7 @@ class TextSerializer(AbstractElementSerializer):
 
 
 class ImageSerializer(AbstractElementSerializer):
+    mediafile = MediaFileSerializer(many=False, read_only=True)
 
     class Meta:
         model = models.Image
@@ -74,6 +76,21 @@ class ImageSerializer(AbstractElementSerializer):
         data = super(ImageSerializer, self).to_representation(obj)
         data['mediafile_data'] = OpenMediaFileSerializer(obj.mediafile).data
         return data
+
+    def to_internal_value(self, data):
+        import json
+        print(json.dumps(data, indent=2))
+        instance = super(ImageSerializer, self).to_internal_value(data)
+        self._new_mediafile = instance
+        mediafile_id = data.get('mediafile', {}).get('id', None)
+        self.new_mediafile = mediafile_id and MediaFile.objects.filter(
+            id=mediafile_id).first()
+        return instance
+
+    def update(self, instance, validated_data):
+        if self.new_mediafile:
+            instance.mediafile = self.new_mediafile
+        return super(ImageSerializer, self).update(instance, validated_data)
 
 
 class LinkSerializer(AbstractElementSerializer):
@@ -99,6 +116,7 @@ class LinkSerializer(AbstractElementSerializer):
             self.instance.page.url = self.updated_url
             self.instance.page.save()
         return instance
+
 
 class QuoteSerializer(AbstractElementSerializer):
 

@@ -1,6 +1,7 @@
 var myArticlesImage = Vue.extend({
   template: '#myarticles_image_template',
   props: ['value', ],
+  mixins: [myArticleElement],
   components:{
     'mymedia-text': TextComponent,
     'mymedia-gallery': Gallery,
@@ -8,36 +9,23 @@ var myArticlesImage = Vue.extend({
     'mymedia-toggle': ToggleComponent,
   },
   data: function(){
-    return {
-      show_meta: false,
-      endpoint: "{% url 'article-list' %}",
-    };
+    return {show_meta: false};
   },
   computed:{
       main_cols(){ return this.show_meta ?  8: 12; },
       meta_cols(){ return this.show_meta ?  4: 0; },
   },
   methods: {
-    get_endpoint(instance){
-          if(instance.id){
-              return this.endpoint  + instance.id + '/';
-          }
-          return this.endpoint;
-    },
     update(){
-      var url = this.get_endpoint(this.value);
-      var vm = this;
-      var config = {};
-      axios.defaults.xsrfCookieName = 'csrftoken';
-      axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-      var method = vm.value.id ? 'patch': 'post';
-      return axios[method](url, vm.value, config).then((res) =>{
-          vm.$emit('input', vm.value);
-      });
+        this.send(this.value).then((res) =>{
+            Vue.set(this, 'value', res.data);
+            this.$emit('input', this.value);
+        });
     },
     onImageSelected(image, selected){
       if(selected == true){
-          this.value.catch = image;
+          Vue.set(this.value, 'mediafile', image);
+          this.$emit('input', this.value);
           this.$refs.gallery.$refs.dialog.hide();
           this.update();
       }
