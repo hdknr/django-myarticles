@@ -1,5 +1,15 @@
 <script type="text/x-template" id="myarticles_location_template">
+<div style="margin: 5px">
   <b-row>
-    {[{ value.content_type }]}
+    <b-col cols="12">
+      <mymedia-text :value="value.address"
+        @input="v => {value.address=v; update();}"> </mymedia-text>
+      <p>
+
+      <iframe class="gmap" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen
+        :src="location_url">
+      </iframe>
+    </b-col>
   </b-row>
+</div>
 </script>
