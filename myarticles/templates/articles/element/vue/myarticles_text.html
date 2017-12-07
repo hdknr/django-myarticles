@@ -1,5 +1,12 @@
 <script type="text/x-template" id="myarticles_text_template">
+<div style="margin: 5px">
   <b-row>
-    {[{ value.content_type }]}
+    <b-col cols="12">
+    <div>
+      <mymedia-text :value="value.texts" :multiline="true"
+      @input="v => {update(v);}"> </mymedia-text>
+    </div>
+    </b-col>
   </b-row>
+</div>
 </script>
