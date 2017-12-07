@@ -87,6 +87,18 @@ class LinkSerializer(AbstractElementSerializer):
         data['page_data'] = PageSerializer(obj.page).data
         return data
 
+    def to_internal_value(self, data):
+        instance = super(LinkSerializer, self).to_internal_value(data)
+        self.updated_url = data.get('page_data', {}).get('url', None)
+        return instance
+
+    def update(self, instance, validated_data):
+        instance = super(LinkSerializer,
+                         self).update(instance, validated_data)
+        if self.updated_url and instance.page.url != self.updated_url:
+            self.instance.page.url = self.updated_url
+            self.instance.page.save()
+        return instance
 
 class QuoteSerializer(AbstractElementSerializer):
 

@@ -32,7 +32,6 @@ var myArticlesArticle = Vue.extend({
       axios.defaults.xsrfHeaderName = 'X-CSRFToken';
       var method = vm.value.id ? 'patch': 'post';
       return axios[method](url, vm.value, config).then((res) =>{
-          console.log("updated...", res);
           vm.$emit('input', vm.value);
       });
     },
