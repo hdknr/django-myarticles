@@ -3,7 +3,7 @@ from rest_framework import serializers
 from mymedia.serializers import (
     OpenMediaFileSerializer, AlbumSerializer, MediaFileSerializer, )
 from mylinks.serializers import PageSerializer
-from mymedia.models import MediaFile
+from mymedia.models import MediaFile, Album
 from . import models, conf
 
 
@@ -78,8 +78,6 @@ class ImageSerializer(AbstractElementSerializer):
         return data
 
     def to_internal_value(self, data):
-        import json
-        print(json.dumps(data, indent=2))
         instance = super(ImageSerializer, self).to_internal_value(data)
         self._new_mediafile = instance
         mediafile_id = data.get('mediafile', {}).get('id', None)
@@ -133,15 +131,19 @@ class LocationSerializer(AbstractElementSerializer):
 
 
 class SlideSerializer(AbstractElementSerializer):
+    album = AlbumSerializer(many=False)
 
     class Meta:
         model = models.Slide
         fields = '__all__'
 
-    def to_representation(self, obj):
-        data = super(SlideSerializer, self).to_representation(obj)
-        data['alubm_data'] = AlbumSerializer(obj.album).data
-        return data
+    def update(self, instance, validated_data):
+        album_data = validated_data.pop('album', {})
+        mediafiles = [i['id'] for i in album_data.get('mediafiles', [])]
+        instance = super(SlideSerializer,
+                         self).update(instance, validated_data)
+        instance.album.update_files(mediafiles)
+        return instance
 
 
 class ElementSerializer(serializers.ModelSerializer):

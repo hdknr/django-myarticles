@@ -1,5 +1,14 @@
 <script type="text/x-template" id="myarticles_slide_template">
-  <b-row>
-    {[{ value.content_type }]}
+<div style="margin: 5px">
+  <b-row  no-gutters="true">
+    <b-col cols="12">
+
+      <mymedia-album
+        :modal-state="true"
+        :value="value.album"
+        @input="v => {value.album=v; update();}"> </mymedia-album>
+
+    </b-col>
   </b-row>
+</div>
 </script>
