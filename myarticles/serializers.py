@@ -1,11 +1,13 @@
 from django.contrib.contenttypes.models import ContentType
 from django.utils.functional import cached_property
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from mymedia.serializers import (
     OpenMediaFileSerializer, AlbumSerializer, MediaFileSerializer, )
 from mylinks.serializers import PageSerializer
 from mymedia.models import MediaFile, Album
 from . import models, conf
+import json
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -163,6 +165,17 @@ class SlideSerializer(AbstractElementSerializer):
         instance = super(SlideSerializer,
                          self).update(instance, validated_data)
         instance.album.update_files(mediafiles)
+        return instance
+
+    def create(self, validated_data):
+        album_data = validated_data.pop('album', {})
+        owner = self.context['request'].user
+        ser = AlbumSerializer(data=album_data)
+        if ser.is_valid():
+            validated_data['album'] = ser.save(owner=owner)
+
+        instance = super(SlideSerializer,
+                         self).create(validated_data)
         return instance
 
 

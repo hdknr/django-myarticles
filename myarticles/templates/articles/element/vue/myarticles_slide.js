@@ -9,9 +9,10 @@ var myArticlesSlide = Vue.extend({
     return {
     };
   },
-  created(){
-  },
   methods: {
+    newInstance(){
+        return {album: {title:'New Album', mediafiles:[]}, content_type: 'myarticles_slide'};
+    },
     update(){
         this.send(this.value).then((res) =>{
             Vue.set(this, 'value', res.data);
