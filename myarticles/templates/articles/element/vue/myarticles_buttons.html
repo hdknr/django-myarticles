@@ -1,0 +1,16 @@
+{% load i18n %}
+<script type="text/x-template" id="myarticles_buttons_template">
+<div style="min-height: 10px;"
+  @mouseenter="visible=true" @mouseleave="visible=false">
+  <b-nav v-show="visible">
+      <b-nav-item @click="$emit('on-new','myarticles_section')">{% trans 'Section Button' %}</b-nav-item>
+      <b-nav-item @click="$emit('on-new','myarticles_subsection')">{% trans 'Subsection Button' %}</b-nav-item>
+      <b-nav-item @click="$emit('on-new','myarticles_text')">{% trans 'Text Button' %}</b-nav-item>
+      <b-nav-item @click="$emit('on-new','myarticles_link')">{% trans 'Link Button' %}</b-nav-item>
+      <b-nav-item @click="$emit('on-new','myarticles_image')">{% trans 'Image Button' %}</b-nav-item>
+      <b-nav-item @click="$emit('on-new','myarticles_slide')">{% trans 'Slide Button' %}</b-nav-item>
+      <b-nav-item @click="$emit('on-new','myarticles_quote')">{% trans 'Quote Button' %}</b-nav-item>
+      <b-nav-item @click="$emit('on-new','myarticles_location')">{% trans 'Location Button' %}</b-nav-item>
+  </b-nav>
+</div>
+</script>

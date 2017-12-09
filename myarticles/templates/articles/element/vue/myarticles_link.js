@@ -4,6 +4,10 @@ var myArticlesLink = Vue.extend({
   mixins: [myArticleElement],
   components:{ 'mymedia-text': TextComponent, },
   methods: {
+    newInstance(){
+        return {
+            page_data:{url: ''}, content_type: 'myarticles_link'};
+    },
     update(){
         this.send(this.value).then((res) =>{
             Vue.set(this, 'value', res.data);

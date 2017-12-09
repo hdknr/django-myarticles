@@ -1,4 +1,5 @@
 from django.contrib.contenttypes.models import ContentType
+from django.utils.functional import cached_property
 from rest_framework import serializers
 from mymedia.serializers import (
     OpenMediaFileSerializer, AlbumSerializer, MediaFileSerializer, )
@@ -98,6 +99,7 @@ class ImageSerializer(AbstractElementSerializer):
 
 
 class LinkSerializer(AbstractElementSerializer):
+    page = PageSerializer(many=False, read_only=True)
 
     class Meta:
         model = models.Link
@@ -111,15 +113,27 @@ class LinkSerializer(AbstractElementSerializer):
     def to_internal_value(self, data):
         instance = super(LinkSerializer, self).to_internal_value(data)
         self.updated_url = data.get('page_data', {}).get('url', None)
+        print(self.updated_url, data)
         return instance
 
+    @cached_property
+    def new_page(self):
+        if self.updated_url:
+            ser = PageSerializer(data={'url': self.updated_url})
+            if ser.is_valid():
+                return ser.save()
+
     def update(self, instance, validated_data):
+        if self.updated_url != instance.page.url:
+            instance.page = self.new_page
         instance = super(LinkSerializer,
                          self).update(instance, validated_data)
-        if self.updated_url and instance.page.url != self.updated_url:
-            self.instance.page.url = self.updated_url
-            self.instance.page.save()
         return instance
+
+    def create(self, validated_data):
+        if self.new_page:
+            validated_data['page'] = self.new_page
+        return super(LinkSerializer, self).create(validated_data)
 
 
 class QuoteSerializer(AbstractElementSerializer):

@@ -4,6 +4,9 @@ var myArticlesText = Vue.extend({
   mixins: [myArticleElement],
   components:{ 'mymedia-text': TextComponent, },
   methods: {
+    newInstance(){
+        return {texts: 'New Text', content_type: 'myarticles_text'};
+    },
     update(texts){
         this.value.texts = texts;
         this.send(this.value).then((res) =>{
