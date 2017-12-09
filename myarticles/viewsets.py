@@ -58,7 +58,7 @@ class ElementViewSet(viewsets.ModelViewSet):
         content_type = self.request.data.get('content_type', None)
         if content_type:
             return ContentType.objects.get_by_natural_key(
-                *content_type.split('.'))
+                *content_type.split('_'))
 
 
     def get_serializer_class(self):

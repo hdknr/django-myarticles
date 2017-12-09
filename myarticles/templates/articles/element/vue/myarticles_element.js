@@ -6,7 +6,8 @@ var myArticleElement = {
   },
   methods: {
     get_endpoint(instance){
-        return (instance.id) ? this.url+ instance.id + '/' : this.url;
+        base_url =  this.url;
+        return (instance.id) ? base_url+ instance.id + '/' : base_url;
     },
     send(instance){
         var url = this.get_endpoint(instance);

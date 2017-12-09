@@ -8,3 +8,4 @@
 {% include "articles/element/vue/myarticles_quote.js" %}
 {% include "articles/element/vue/myarticles_slide.js" %}
 {% include "articles/element/vue/myarticles_text.js" %}
+{% include "articles/element/vue/myarticles_buttons.js" %}

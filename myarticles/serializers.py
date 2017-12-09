@@ -90,6 +90,12 @@ class ImageSerializer(AbstractElementSerializer):
             instance.mediafile = self.new_mediafile
         return super(ImageSerializer, self).update(instance, validated_data)
 
+    def create(self, validated_data):
+        if self.new_mediafile:
+            validated_data['mediafile'] = self.new_mediafile
+        instance = super(ImageSerializer, self).create(validated_data)
+        return instance
+
 
 class LinkSerializer(AbstractElementSerializer):
 

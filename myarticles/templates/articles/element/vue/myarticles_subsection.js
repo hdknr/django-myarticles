@@ -4,6 +4,9 @@ var myArticlesSubsection= Vue.extend({
   mixins: [myArticleElement],
   components:{ 'mymedia-text': TextComponent, },
   methods: {
+    newInstance(){
+        return {title: 'New Subsection', content_type: 'myarticles_subsection'};
+    },
     update(title){
         this.value.title = title;
         this.send(this.value).then((res) =>{

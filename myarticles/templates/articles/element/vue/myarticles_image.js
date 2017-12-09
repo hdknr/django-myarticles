@@ -16,6 +16,9 @@ var myArticlesImage = Vue.extend({
       meta_cols(){ return this.show_meta ?  4: 0; },
   },
   methods: {
+    newInstance(){
+        return {content_type: 'myarticles_image', mediafile: {data: null}};
+    },
     update(){
         this.send(this.value).then((res) =>{
             Vue.set(this, 'value', res.data);

@@ -16,8 +16,9 @@
 
     <b-img fluid class="rounded" style="padding-top: 5px"
       @click="$refs.gallery.$refs.dialog.show()"
-      :src="value.mediafile.data" >
+      :src="value.mediafile.data" v-if="value.mediafile.data">
     </b-img>
+    <b-button v-else @click="$refs.gallery.$refs.dialog.show()">Select Image</b-button>
 
     <mymedia-gallery ref="gallery" @on-select="onImageSelected"></mymedia-gallery>
     {# Gallery.modalState にバインド #}
