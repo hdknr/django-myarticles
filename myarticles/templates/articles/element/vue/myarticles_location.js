@@ -11,6 +11,9 @@ var myArticlesLocation = Vue.extend({
       }
   },
   methods: {
+    newInstance(){
+        return {address: 'New Address', content_type: 'myarticles_location'};
+    },    
     update(){
         this.send(this.value).then((res) =>{
             this.$forceUpdate();
