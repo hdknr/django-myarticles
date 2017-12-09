@@ -4,6 +4,9 @@ var myArticlesQuote = Vue.extend({
   mixins: [myArticleElement],
   components:{ 'mymedia-text': TextComponent, },
   methods: {
+    newInstance(){
+        return {url: 'New URL', texts:'New Quote', source:'New Source', content_type: 'myarticles_quote'};
+    },
     update(){
         this.send(this.value).then((res) =>{
             this.$emit('input', this.value);
