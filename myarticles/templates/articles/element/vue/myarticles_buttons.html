@@ -1,16 +1,27 @@
 {% load i18n %}
 <script type="text/x-template" id="myarticles_buttons_template">
 <div style="min-height: 10px;"
-  @mouseenter="visible=true" @mouseleave="visible=false">
-  <b-nav v-show="visible">
-      <b-nav-item @click="$emit('on-new','myarticles_section')">{% trans 'Section Button' %}</b-nav-item>
-      <b-nav-item @click="$emit('on-new','myarticles_subsection')">{% trans 'Subsection Button' %}</b-nav-item>
-      <b-nav-item @click="$emit('on-new','myarticles_text')">{% trans 'Text Button' %}</b-nav-item>
-      <b-nav-item @click="$emit('on-new','myarticles_link')">{% trans 'Link Button' %}</b-nav-item>
-      <b-nav-item @click="$emit('on-new','myarticles_image')">{% trans 'Image Button' %}</b-nav-item>
-      <b-nav-item @click="$emit('on-new','myarticles_slide')">{% trans 'Slide Button' %}</b-nav-item>
-      <b-nav-item @click="$emit('on-new','myarticles_quote')">{% trans 'Quote Button' %}</b-nav-item>
-      <b-nav-item @click="$emit('on-new','myarticles_location')">{% trans 'Location Button' %}</b-nav-item>
-  </b-nav>
+  @mouseenter="visible=true" @mouseleave="visible=false" class="my-1 py-2 border border-success rounded">
+  <b-row v-if="!visible">
+    <b-col cols="12" class="text-center bg-success text-white" >{% trans 'Add Element...' %}</b-col>
+  </b-row>
+  <b-row  v-else>
+    <b-col cols="10">
+    <b-nav>
+        <b-nav-item @click="$emit('on-new','myarticles_section')">{% trans 'Section Button' %}</b-nav-item>
+        <b-nav-item @click="$emit('on-new','myarticles_subsection')">{% trans 'Subsection Button' %}</b-nav-item>
+        <b-nav-item @click="$emit('on-new','myarticles_text')">{% trans 'Text Button' %}</b-nav-item>
+        <b-nav-item @click="$emit('on-new','myarticles_link')">{% trans 'Link Button' %}</b-nav-item>
+        <b-nav-item @click="$emit('on-new','myarticles_image')">{% trans 'Image Button' %}</b-nav-item>
+        <b-nav-item @click="$emit('on-new','myarticles_slide')">{% trans 'Slide Button' %}</b-nav-item>
+        <b-nav-item @click="$emit('on-new','myarticles_quote')">{% trans 'Quote Button' %}</b-nav-item>
+        <b-nav-item @click="$emit('on-new','myarticles_location')">{% trans 'Location Button' %}</b-nav-item>
+    </b-nav>
+    </b-col>
+    <b-col cols="2" v-if="showDelete">
+        <b-button variant="danger" class="far fa-trash-alt" @click="$emit('on-delete')">
+            {% trans 'Delete' %}</b-button>
+    </b-col>
+  </b-row>
 </div>
 </script>
