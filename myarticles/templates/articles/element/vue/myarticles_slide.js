@@ -15,9 +15,7 @@ var myArticlesSlide = Vue.extend({
     },
     update(){
         this.send(this.value).then((res) =>{
-            Vue.set(this, 'value', res.data);
-            this.value.album.current = this.value.album.mediafiles[0];
-            this.$emit('input', this.value);
+            this.$emit('input', res.data);
         });
     }
   }
