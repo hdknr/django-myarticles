@@ -1,7 +1,7 @@
 <script type="text/x-template" id="myarticles_article_template">
 <b-row v-if="value" no-gutters="true">
 
-<b-col cols="12">
+<b-col cols="12" style="min-height:120px">
   <b-row >
     <b-col cols="10">
       <h2 class="fluid">
@@ -21,8 +21,9 @@
 
     <b-img fluid class="rounded" style="padding-top: 5px"
       @click="$refs.gallery.$refs.dialog.show()"
-      :src="value.catch.data" >
+      :src="value.catch.data" v-if="value.catch">
     </b-img>
+    <b-btn @click="$refs.gallery.$refs.dialog.show()" v-else>Click to select MediaFile</b-btn>
 
     <mymedia-gallery ref="gallery" @on-select="onImageSelected"></mymedia-gallery>
     {# Gallery.modalState にバインド #}
@@ -47,7 +48,7 @@
           </mymedia-text>
         </b-tab>
 
-        <b-tab no-body title="Catch Picture" active>
+        <b-tab no-body title="Catch Picture" active v-if="value.catch">
           <mymedia-mediafile v-model="value.catch"></mymedia-mediafile>
         </b-tab>
 
