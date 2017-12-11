@@ -70,6 +70,10 @@ class Article(CoreModel):
     def get_edit_url(self):
         return reverse('myarticles_article_detail', kwargs={'id': self.id})
 
+    @cached_property
+    def preview_html(self):
+        return self.render_content()
+
 
 class Element(CoreModel):
 
