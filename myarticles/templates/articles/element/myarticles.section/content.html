@@ -3,7 +3,7 @@
   <h2> {{ graph.element.title }}</h2>
   <div>
     {% for child in graph.children %}
-      {{ child.render_content }}
+      {{ child.render_content|safe }}
     {% endfor %}
   </div>
 </section>
